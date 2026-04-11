@@ -727,6 +727,4 @@ update_resume_section() → Clear old rows → Insert new → DB commit ✅
 
 *Flask · Vanilla JS · Google Gemini · HuggingFace Transformers · spaCy · PyTorch*
 
-</div>#   a t s - r e s u m e s  
- #   m y - f i r s t - p r o j e c t  
- 
+</div>#
