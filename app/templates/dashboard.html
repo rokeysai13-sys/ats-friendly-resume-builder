@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Resume Dashboard | Digital Obsidian</title>
+    <meta name="description" content="High-end cinematic resume management experience." />
+    <!-- Tailwind CSS with essential plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Modern Typography - Manrope & Fraunces -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <!-- Material Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- GSAP Libraries for Advanced Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Three.js for Parallax Starfield -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/unified-cinematic.css') }}" />
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Manrope', 'system-ui', 'sans-serif'], 
+                        display: ['Fraunces', 'serif'],
+                        serif: ['Fraunces', 'serif']
+                    },
+                    colors: {
+                        surface: { DEFAULT: '#0b0f14', 50: '#11161d', 100: '#18212c' },
+                        panel: { DEFAULT: '#10161f', 50: '#151d28', 100: '#1b2431' },
+                        paper: '#f7f1e8',
+                        primary: { DEFAULT: '#76d8cf', dark: '#53c2b8' },
+                        accent: '#d8bb79',
+                        ink: '#11151b',
+                        muted: '#94a3b8',
+                        danger: '#f87171',
+                        success: '#4ade80',
+                    },
+                    boxShadow: {
+                        ambient: '0 0 54px -18px rgba(118,216,207,0.28)',
+                        glass: '0 18px 50px rgba(0,0,0,0.38)',
+                        'glass-beveled': 'inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(118, 216, 207, 0.08), 0 18px 50px rgba(0, 0, 0, 0.34)',
+                        paper: '0 24px 70px rgba(8,12,18,0.28)',
+                        soft: '0 1px 0 rgba(255,255,255,0.04) inset',
+                    },
+                    animation: {
+                        'text-reveal': 'textReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                        'stagger-fade': 'staggerFade 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                    },
+                    keyframes: {
+                        textReveal: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        staggerFade: {
+                            '0%': { opacity: '0', transform: 'translateX(30px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        /* Custom Scrollbars */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #334155 transparent;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+        body {
+            background:
+                radial-gradient(circle at top, rgba(34, 211, 238, 0.05), transparent 30%),
+                radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.03), transparent 28%),
+                #09090b;
+            overflow-x: hidden;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        /* Parallax Starfield Canvas */
+        #parallax-starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Glassmorphism 2.0 - Enhanced with Beveled Glass Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+            border-right: 1px solid rgba(0, 0, 0, 0.5);
+            transform-style: preserve-3d;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.24),
+                inset 0 -1px 0 rgba(118, 216, 207, 0.08),
+                0 18px 50px rgba(0, 0, 0, 0.34);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                130deg,
+                rgba(255, 255, 255, 0.14) 0%,
+                rgba(255, 255, 255, 0.04) 38%,
+                rgba(0, 0, 0, 0.1) 100%
+            );
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-top-color: rgba(255, 255, 255, 0.36);
+            border-left-color: rgba(255, 255, 255, 0.36);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.36),
+                inset 0 -1px 0 rgba(118, 216, 207, 0.12),
+                0 24px 64px rgba(118, 216, 207, 0.12);
+            transform: translateY(-6px);
+        }
+
+        .glass-card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Asymmetric Grid Layout */
+        .asymmetric-grid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .card-ats {
+            grid-column: span 5;
+            grid-row: 1;
+            z-index: 20;
+            position: relative;
+        }
+
+        .card-preview {
+            grid-column: span 7;
+            grid-row: 1;
+            z-index: 10;
+        }
+
+        .card-projects {
+            grid-column: span 4;
+            grid-row: 2;
+            z-index: 15;
+        }
+
+        .card-certifications {
+            grid-column: span 8;
+            grid-row: 2;
+            z-index: 5;
+        }
+
+        @media (max-width: 1024px) {
+            .asymmetric-grid {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+            }
+            .card-ats { grid-column: span 6; }
+            .card-preview { grid-column: span 6; }
+            .card-projects { grid-column: span 6; }
+            .card-certifications { grid-column: span 6; }
+        }
+
+        @media (max-width: 640px) {
+            .asymmetric-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-ats, .card-preview, .card-projects, .card-certifications {
+                grid-column: span 1 !important;
+            }
+        }
+
+        /* Primary Button */
+        .btn-primary {
+            background: linear-gradient(135deg, #76d8cf 0%, #53c2b8 100%);
+            color: #0b0f14;
+            font-weight: 600;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(118, 216, 207, 0.24);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 12px 32px rgba(118, 216, 207, 0.36);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Icon Button */
+        .btn-icon {
+            background: rgba(248, 113, 113, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.24);
+            transition: all 0.2s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(248, 113, 113, 0.2);
+            box-shadow: 0 4px 12px rgba(248, 113, 113, 0.18);
+        }
+
+        .card-date {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Scroll Progress Bar */
+        [data-scroll-progress] {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #76d8cf, #d8bb79);
+            z-index: 100;
+            transform-origin: left center;
+            scaleX: 0;
+        }
+
+        /* Text Reveal Animation */
+        [data-text-reveal] {
+            font-family: 'Fraunces', serif;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-item {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-item:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-item:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-item:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-item:nth-child(n+5) { animation-delay: 0.5s; }
+
+        /* 3D Transform Support */
+        .preserve-3d {
+            transform-style: preserve-3d;
+            perspective: 1200px;
+        }
+
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen cinematic-page">
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 border-b border-slate-700/50 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center">
+                    <span class="text-ink font-display font-bold">A</span>
+                </div>
+                <span class="text-lg font-display font-bold text-slate-100">Resume Atelier</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-slate-400" id="user-name">Loading...</span>
+                <button onclick="handleLogout()" class="text-sm font-medium text-slate-300 hover:text-primary transition-colors">
+                    Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-[calc(100vh-80px)] py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Header Section -->
+            <div class="mb-12 flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-display font-bold text-slate-100 mb-2">Your Resumes</h1>
+                    <p class="text-slate-400">Create, edit, and manage your professional resumes</p>
+                </div>
+                <button onclick="handleCreateNewResume()" class="btn-primary px-6 py-3 rounded-lg flex items-center gap-2 hover:shadow-lg">
+                    <span class="material-symbols-outlined text-xl">add</span>
+                    Create New
+                </button>
+            </div>
+
+            <div class="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <article class="glass-card rounded-lg p-4">
+                    <div class="glass-card-content">
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">Total Resumes</p>
+                        <p class="text-2xl font-display font-bold text-white"><span id="dashboard-counter-resumes" data-counter-target="0">0</span></p>
+                    </div>
+                </article>
+                <article class="glass-card rounded-lg p-4">
+                    <div class="glass-card-content">
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">Template Modes</p>
+                        <p class="text-2xl font-display font-bold text-white"><span data-counter-target="15">0</span></p>
+                    </div>
+                </article>
+                <article class="glass-card rounded-lg p-4">
+                    <div class="glass-card-content">
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">ATS Engines</p>
+                        <p class="text-2xl font-display font-bold text-white"><span data-counter-target="2">0</span></p>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Resumes Grid -->
+            <div id="resumes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Resume cards will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="text-center py-16">
+                <div class="w-16 h-16 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-4xl text-slate-500">description</span>
+                </div>
+                <h2 class="text-xl font-display font-bold text-slate-300 mb-2">No Resumes Yet</h2>
+                <p class="text-slate-400 mb-6">Create your first resume to get started</p>
+                <button onclick="handleCreateNewResume()" class="btn-primary px-6 py-3 rounded-lg inline-flex items-center gap-2">
+                    <span class="material-symbols-outlined">add</span>
+                    Create First Resume
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div class="glass-card p-8 rounded-xl">
+            <div class="w-8 h-8 border-2 border-slate-600 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-slate-300 font-medium">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div class="glass-card p-8 rounded-xl max-w-sm w-full mx-4">
+            <h3 class="text-xl font-display font-bold text-slate-100 mb-2">Delete Resume?</h3>
+            <p class="text-slate-400 mb-6">This action cannot be undone. The resume and all its data will be permanently deleted.</p>
+            <div class="flex gap-4">
+                <button onclick="closeDeleteModal()" class="flex-1 px-4 py-2.5 rounded-lg border border-slate-600 text-slate-300 font-medium hover:bg-slate-800/50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="confirmDelete()" class="flex-1 px-4 py-2.5 rounded-lg bg-danger text-white font-medium hover:bg-red-600 transition-colors">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let deleteTargetId = null;
+        const API_BASE = '/api/v1';
+
+        // Fetch and display resumes on page load
+        async function loadResumes() {
+            try {
+                showLoading(true);
+                const response = await fetch(`${API_BASE}/resumes`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = '/login';
+                        return;
+                    }
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                const resumes = data.data || [];
+
+                const resumeCounter = document.getElementById('dashboard-counter-resumes');
+                if (resumeCounter) {
+                    resumeCounter.dataset.counterTarget = String(resumes.length);
+                    if (window.ScrollCounterAnimator) {
+                        window.ScrollCounterAnimator.refresh(document);
+                    }
+                }
+                
+                // Load user info
+                const meResponse = await fetch('/api/v1/auth/me', { method: 'GET' });
+                if (meResponse.ok) {
+                    const meData = await meResponse.json();
+                    document.getElementById('user-name').textContent = meData.user.name || 'User';
+                }
+
+                renderResumes(resumes);
+            } catch (error) {
+                console.error('Failed to load resumes:', error);
+                document.getElementById('resumes-grid').innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-danger mb-4">Failed to load resumes. Please try again.</p>
+                        <button onclick="loadResumes()" class="btn-primary px-4 py-2 rounded-lg">
+                            Retry
+                        </button>
+                    </div>
+                `;
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function renderResumes(resumes) {
+            const grid = document.getElementById('resumes-grid');
+            const emptyState = document.getElementById('empty-state');
+
+            if (resumes.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+
+            grid.innerHTML = resumes.map((resume, index) => {
+                const updatedDate = new Date(resume.updated_at).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+
+                return `
+                    <div class="glass-card rounded-lg p-6 stagger-item cursor-pointer hover:no-underline transition-all" onclick="openEditor(${resume.id})">
+                        <div class="glass-card-content h-full flex flex-col">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1 pr-2">
+                                    <h3 class="font-display font-bold text-slate-100 truncate text-lg mb-1">${escapeHtml(resume.title || 'Untitled Resume')}</h3>
+                                    <p class="card-date">Updated ${updatedDate}</p>
+                                </div>
+                                <button 
+                                    onclick="event.stopPropagation(); openDeleteModal(${resume.id})"
+                                    class="btn-icon p-2.5 rounded-lg flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
+                                    title="Delete resume"
+                                >
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+
+                            <!-- Resume Preview Info -->
+                            <div class="mb-4 flex-1">
+                                <div class="text-xs text-slate-400 space-y-1">
+                                    ${resume.personal_name ? `<p><span class="text-primary">📋</span> ${escapeHtml(resume.personal_name)}</p>` : ''}
+                                    ${resume.personal_email ? `<p><span class="text-primary">📧</span> ${escapeHtml(resume.personal_email)}</p>` : ''}
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button 
+                                onclick="event.stopPropagation(); openEditor(${resume.id})"
+                                class="w-full py-2.5 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition-colors"
+                            >
+                                Edit Resume →
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function handleCreateNewResume() {
+            try {
+                showLoading(true);
+                const response = await fetch(`${API_BASE}/resumes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: 'New Resume',
+                        template_id: 1
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                window.location.href = `/editor?resume=${data.id}`;
+            } catch (error) {
+                console.error('Failed to create resume:', error);
+                alert('Failed to create resume. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function openEditor(resumeId) {
+            window.location.href = `/editor?resume=${resumeId}`;
+        }
+
+        function openDeleteModal(resumeId) {
+            deleteTargetId = resumeId;
+            document.getElementById('delete-modal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            deleteTargetId = null;
+            document.getElementById('delete-modal').classList.add('hidden');
+        }
+
+        async function confirmDelete() {
+            if (!deleteTargetId) return;
+
+            try {
+                showLoading(true);
+                const response = await fetch(`${API_BASE}/resumes/${deleteTargetId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                closeDeleteModal();
+                loadResumes();
+            } catch (error) {
+                console.error('Failed to delete resume:', error);
+                alert('Failed to delete resume. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function handleLogout() {
+            window.location.href = '/logout';
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading-modal').classList.toggle('hidden', !show);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load resumes when page loads
+        document.addEventListener('DOMContentLoaded', loadResumes);
+    </script>
+    <script defer src="{{ url_for('static', filename='js/scroll-counters.js') }}"></script>
+</body>
+
+</html>

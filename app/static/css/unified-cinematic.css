@@ -1,0 +1,113 @@
+:root {
+  --cin-bg-a: #070b11;
+  --cin-bg-b: #0b1018;
+  --cin-glass: rgba(255, 255, 255, 0.06);
+  --cin-border: rgba(255, 255, 255, 0.14);
+  --cin-highlight: rgba(118, 216, 207, 0.45);
+}
+
+body.cinematic-page {
+  background:
+    radial-gradient(circle at 8% -10%, rgba(118, 216, 207, 0.16), transparent 34%),
+    radial-gradient(circle at 100% 0%, rgba(79, 70, 229, 0.12), transparent 30%),
+    linear-gradient(140deg, var(--cin-bg-a), var(--cin-bg-b));
+}
+
+body.cinematic-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 0.7px, transparent 0.7px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+main,
+header,
+nav,
+.workspace-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.glass,
+.glass-card,
+.glass-panel,
+.obsidian-panel-reflective,
+#sidebar-root,
+#editor-form-panel,
+#ats-panel,
+#live-preview-panel {
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  background: var(--cin-glass);
+  border: 1px solid var(--cin-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.btn-primary,
+.btn-secondary,
+button,
+a[class*="btn"] {
+  transition: transform 180ms ease, box-shadow 220ms ease, filter 220ms ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+button:hover,
+a[class*="btn"]:hover {
+  transform: translateY(-1.5px) scale(1.01);
+}
+
+.btn-primary:active,
+.btn-secondary:active,
+button:active,
+a[class*="btn"]:active {
+  transform: translateY(0) scale(0.995);
+}
+
+@keyframes cinematicFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+section,
+.glass,
+.glass-card,
+.glass-panel {
+  animation: cinematicFadeUp 420ms ease both;
+}
+
+#live-preview-panel {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 26px 60px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(118, 216, 207, 0.12);
+}
+
+#resume-pdf-content {
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+#resume-pdf-content:hover {
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.35);
+}
+
+#resume-template-select {
+  border-color: rgba(118, 216, 207, 0.28);
+}
+
+#resume-template-select:focus {
+  box-shadow: 0 0 0 2px rgba(118, 216, 207, 0.18);
+}

@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Resume Atelier | Digital Obsidian</title>
+    <meta name="description"
+        content="Professional resume studio with ATS optimization, live preview, and focused editorial workspace." />
+    <!-- Tailwind CSS with essential plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Modern Typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <!-- Material Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- html2pdf for exporting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- GSAP for depth-scroll animations -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/unified-cinematic.css') }}" />
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Manrope', 'sans-serif'], display: ['Fraunces', 'serif'] },
+                    colors: {
+                        surface: { DEFAULT: '#0b0f14', 50: '#11161d', 100: '#18212c' },
+                        panel: { DEFAULT: '#10161f', 50: '#151d28', 100: '#1b2431' },
+                        paper: '#f7f1e8',
+                        primary: { DEFAULT: '#76d8cf', dark: '#53c2b8' },
+                        accent: '#d8bb79',
+                        ink: '#11151b',
+                        muted: '#94a3b8',
+                        danger: '#f87171',
+                        success: '#4ade80',
+                    },
+                    boxShadow: {
+                        ambient: '0 0 54px -18px rgba(118,216,207,0.28)',
+                        glass: '0 18px 50px rgba(0,0,0,0.38)',
+                        paper: '0 24px 70px rgba(8,12,18,0.28)',
+                        soft: '0 1px 0 rgba(255,255,255,0.04) inset',
+                    },
+                    keyframes: {
+                        'fade-in': { from: { opacity: '0', transform: 'translateY(10px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+                        'score-fill': { from: { strokeDashoffset: '264' } },
+                    },
+                    animation: {
+                        'fade-in': 'fade-in 0.3s ease-out',
+                        'score-fill': 'score-fill 1.2s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        :root {
+            color-scheme: dark;
+            --light-x: 50%;
+            --light-y: 50%;
+            --tilt-x: 0deg;
+            --tilt-y: 0deg;
+        }
+
+        /* Custom Scrollbars */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #334155 transparent;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+        /*
+         * Critical fallback styles if Tailwind CDN fails to load.
+         * Keeps the workspace layout and controls readable and functional.
+         */
+        .hidden { display: none !important; }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100dvh;
+            margin: 0;
+            font-family: 'Manrope', system-ui, sans-serif;
+            color: #f8fafc;
+        }
+
+        #global-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 14, 20, 0.84);
+            backdrop-filter: blur(14px);
+        }
+
+        .workspace-shell {
+            display: flex;
+            flex: 1 1 auto;
+            gap: 1rem;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+        }
+
+        #sidebar-root {
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            width: clamp(248px, 21vw, 292px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            overflow-y: auto;
+            position: sticky;
+            top: 5rem;
+            align-self: flex-start;
+            max-height: calc(100dvh - 6rem);
+        }
+
+        .zen-intro {
+            position: relative;
+            z-index: 2;
+            margin: 0 1rem;
+            padding: 2.2rem 1.2rem 1.4rem;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(15, 23, 42, 0.34));
+            backdrop-filter: blur(18px);
+        }
+
+        .zen-metric-card {
+            border: 1px solid rgba(125, 211, 252, 0.2);
+            background: linear-gradient(150deg, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.22));
+            border-radius: 0.95rem;
+            padding: 0.9rem;
+        }
+
+        .motion-mode-btn {
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            background: rgba(15, 23, 42, 0.34);
+            color: #dbeafe;
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        .motion-mode-btn.active {
+            background: linear-gradient(90deg, rgba(34, 211, 238, 0.3), rgba(125, 211, 252, 0.28));
+            border-color: rgba(34, 211, 238, 0.62);
+            color: #ecfeff;
+            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25);
+        }
+
+        .section-progress-card {
+            border: 1px solid rgba(125, 211, 252, 0.16);
+            background: rgba(15, 23, 42, 0.34);
+            border-radius: 0.8rem;
+            padding: 0.62rem 0.72rem;
+        }
+
+        .section-progress-card strong {
+            font-size: 0.78rem;
+            color: #e2e8f0;
+        }
+
+        .section-progress-card span {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .scroll-progress-track {
+            width: 100%;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.22);
+            overflow: hidden;
+        }
+
+        .scroll-progress-fill {
+            width: 100%;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #67e8f9, #22d3ee);
+            transform-origin: left center;
+            transform: scaleX(0);
+        }
+
+        .curtain-reveal {
+            position: absolute;
+            inset: 0;
+            z-index: 40;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(248, 250, 252, 1), rgba(241, 245, 249, 0.98));
+        }
+
+        #parallax-dots-3d {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            perspective: 900px;
+        }
+
+        .parallax-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(186, 230, 253, 0.6);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+            will-change: transform, opacity;
+        }
+
+        .view-tab {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            border: 0;
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            background: transparent;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .view-tab:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #f8fafc;
+        }
+
+        #editor-sidebar button[data-section] {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            border: 0;
+            border-radius: 12px;
+            padding: 0.62rem 1rem;
+            text-align: left;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        #editor-sidebar button[data-section]:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #f8fafc;
+        }
+
+        .workspace-main {
+            display: grid;
+            flex: 1 1 auto;
+        }
+
+        #editor-form-panel,
+        #ats-panel,
+        #live-preview-panel {
+            min-width: 0;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(14px);
+            overflow-y: auto;
+        }
+
+        #live-preview-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 620px;
+            padding: 2rem;
+            background: rgba(8, 12, 18, 0.92);
+        }
+
+        @media (max-width: 1280px) {
+            .workspace-shell {
+                overflow-y: auto;
+            }
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top, rgba(34, 211, 238, 0.05), transparent 30%),
+                radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.03), transparent 28%),
+                #09090b;
+            perspective: 1400px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        #threejs-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.94;
+        }
+
+        #threejs-bg canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* UI States */
+        .tab-active {
+            color: #f8fafc !important;
+            background: #262626;
+        }
+
+        /* Input Overrides */
+        .input-dark {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(8, 12, 18, 0.8) 100%) !important;
+            border: 1.5px solid rgba(118, 216, 207, 0.12) !important;
+            color: #f1f5f9 !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+        }
+
+        .input-dark:hover {
+            border-color: rgba(118, 216, 207, 0.24) !important;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(8, 12, 18, 0.95) 100%) !important;
+        }
+
+        .input-dark:focus {
+            border-color: #76d8cf !important;
+            box-shadow: 0 0 0 3px rgba(118, 216, 207, 0.2), inset 0 0 20px rgba(118, 216, 207, 0.08) !important;
+            outline: none !important;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(8, 12, 18, 1) 100%) !important;
+        }
+
+        .input-dark::placeholder,
+        .input-dark::-webkit-input-placeholder,
+        .input-dark::-moz-placeholder,
+        .input-dark:-ms-input-placeholder {
+            color: #94a3b8 !important;
+            opacity: 1 !important;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.24),
+                inset 0 -1px 0 rgba(118, 216, 207, 0.08),
+                0 18px 50px rgba(0, 0, 0, 0.34);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                130deg,
+                rgba(255, 255, 255, 0.14) 0%,
+                rgba(255, 255, 255, 0.04) 38%,
+                rgba(0, 0, 0, 0.1) 100%
+            );
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        #editor-form-panel,
+        #ats-panel,
+        #sidebar-root {
+            transform-style: preserve-3d;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.18),
+                inset 0 -1px 0 rgba(118, 216, 207, 0.08),
+                0 10px 28px rgba(0, 0, 0, 0.28);
+        }
+
+        .obsidian-panel-reflective {
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(30px) saturate(140%);
+            transform-style: preserve-3d;
+            transform: none;
+            transition: box-shadow 220ms ease;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.20),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.40),
+                0 30px 80px rgba(0, 0, 0, 0.38);
+        }
+
+        .obsidian-panel-reflective::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: none;
+            border: 1px solid transparent;
+            border-image: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.20) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(0, 0, 0, 0.40) 100%
+            ) 1;
+            margin: 0;
+        }
+
+        .obsidian-panel-reflective::after {
+            content: '';
+            position: absolute;
+            inset: -40% -12%;
+            pointer-events: none;
+            background: linear-gradient(
+                115deg,
+                rgba(34, 211, 238, 0) 20%,
+                rgba(34, 211, 238, 0.14) 48%,
+                rgba(34, 211, 238, 0) 72%
+            );
+            transform: translateX(-45%) rotate(-8deg);
+            animation: panel-sheen 8.2s ease-in-out infinite;
+            opacity: 0.12;
+        }
+
+        @keyframes panel-sheen {
+            0%, 100% { transform: translateX(-45%) rotate(-8deg); }
+            50% { transform: translateX(38%) rotate(-8deg); }
+        }
+
+        .depth-card {
+            will-change: transform, opacity;
+            transform-origin: center center;
+            backface-visibility: hidden;
+        }
+
+        .paper-card {
+            background: #f7f1e8;
+            color: #11151b;
+            border: 1px solid rgba(17, 21, 27, 0.08);
+            box-shadow: 0 24px 70px rgba(8, 12, 18, 0.28);
+        }
+        
+        /* Floating Markers */
+        .floating-marker {
+            position: absolute;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            pointer-events: none;
+            z-index: 30;
+        }
+        .marker-verified { background: rgba(16, 185, 129, 0.25); }
+        .marker-ai { background: rgba(244, 63, 94, 0.25); }
+
+        .ai-magic-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.7rem;
+            height: 1.7rem;
+            border-radius: 999px;
+            border: 1px solid rgba(118, 216, 207, 0.35);
+            background: rgba(118, 216, 207, 0.12);
+            color: #9aece4;
+            transition: transform 0.18s ease, background-color 0.18s ease;
+        }
+
+        .ai-magic-btn:hover {
+            transform: translateY(-1px);
+            background: rgba(118, 216, 207, 0.2);
+        }
+
+        .ai-thinking-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 120;
+            background: rgba(2, 6, 12, 0.28);
+            backdrop-filter: blur(7px);
+        }
+
+        .ai-thinking-overlay.is-active {
+            display: flex;
+        }
+
+        .ai-thinking-card {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(15, 23, 42, 0.62);
+            box-shadow: 0 10px 30px rgba(2, 6, 12, 0.35);
+            color: #dbeafe;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .ai-thinking-spinner {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 999px;
+            border: 2px solid rgba(148, 163, 184, 0.35);
+            border-top-color: #67e8f9;
+            animation: ai-spin 0.8s linear infinite;
+        }
+
+        @keyframes ai-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .tech-tag-glow {
+            transition: box-shadow 0.22s ease, transform 0.22s ease;
+        }
+
+        .tech-tag-glow:hover {
+            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.5), 0 0 18px rgba(34, 211, 238, 0.35);
+            transform: translateY(-1px);
+        }
+
+        /* Workspace layout hardening */
+        .workspace-shell {
+            min-height: 0;
+        }
+
+        .workspace-sidebar {
+            width: clamp(248px, 21vw, 292px);
+            min-width: 248px;
+            position: sticky;
+            top: 5rem;
+            align-self: flex-start;
+            z-index: 1;
+        }
+
+        /* 12-COLUMN ASYMMETRIC GRID: Obsidian (1-5) overlaps with Paper (5-12) */
+        .workspace-main {
+            min-width: 0;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 0;
+            align-items: start;
+            position: relative;
+            z-index: 3;
+            padding-right: 1rem;
+        }
+
+        #editor-form-panel {
+            grid-column: 1 / 6;
+            grid-row: 1;
+            margin-right: -6rem;
+            z-index: 12;
+            position: relative;
+        }
+
+        #ats-panel {
+            grid-column: 1 / 6;
+            grid-row: 1;
+            margin-right: -6rem;
+            z-index: 12;
+            position: relative;
+        }
+
+        #live-preview-panel {
+            grid-column: 5 / 13;
+            grid-row: 1;
+            z-index: 9;
+            align-items: flex-start;
+            justify-content: flex-start;
+            margin-top: -4.5rem;
+            margin-left: 5cm;
+            min-height: 760px;
+        }
+
+        .workspace-panel,
+        .workspace-preview {
+            min-width: 0;
+        }
+
+        #editor-form-panel,
+        #ats-panel,
+        #live-preview-panel {
+            position: relative;
+        }
+
+        #sidebar-root {
+            z-index: 1 !important;
+        }
+
+        #editor-form-panel .grid.grid-cols-2 {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        #editor-form-panel .grid.grid-cols-2 > * {
+            grid-column: auto / span 1 !important;
+        }
+
+        #resume-pdf-content {
+            width: min(595px, 100%);
+            min-height: 842px;
+            transform-origin: top center;
+        }
+
+        @media (min-width: 1200px) {
+            #editor-form-panel .grid.grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            #editor-form-panel .grid.grid-cols-2 > .col-span-2 {
+                grid-column: span 2 / span 2 !important;
+            }
+
+            #editor-form-panel .grid.grid-cols-2 > .md\:col-span-1 {
+                grid-column: span 1 / span 1 !important;
+            }
+        }
+
+        @media (max-width: 1280px) {
+            .workspace-main {
+                grid-template-columns: 1fr;
+            }
+
+            .workspace-preview {
+                min-height: 540px;
+            }
+
+            #editor-form-panel,
+            #ats-panel,
+            #live-preview-panel {
+                margin-right: 0;
+                margin-left: 0;
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            body {
+                overflow-y: auto;
+            }
+
+            .workspace-shell {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+
+            .workspace-sidebar {
+                width: 100%;
+                min-width: 0;
+                max-height: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-neutral-950 font-sans text-white antialiased min-h-dvh flex flex-col cinematic-page">
+    <div id="threejs-bg" aria-hidden="true"></div>
+    <div id="parallax-dot-field" class="pointer-events-none fixed inset-0 opacity-18 [background-image:radial-gradient(rgba(255,255,255,0.12)_0.6px,transparent_0.6px)] [background-size:18px_18px]">
+        <div id="parallax-dots-3d" aria-hidden="true"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- GLOBAL HEADER                                                  -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <header id="global-header" class="sticky top-0 z-50 h-16 bg-neutral-950/84 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-5 md:px-6 shrink-0">
+        <!-- Left: Logo -->
+        <div class="flex items-center gap-3">
+            <div class="size-9 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center shadow-soft">
+                <span class="material-symbols-outlined text-primary text-lg">description</span>
+            </div>
+            <div>
+                <span class="block font-bold text-base tracking-tight text-white">Resume Atelier</span>
+                <span class="block text-[10px] uppercase tracking-[0.24em] text-slate-400">Studio workspace</span>
+            </div>
+        </div>
+        <!-- Center: Version -->
+        <div class="hidden md:flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-4 py-2 text-xs text-slate-300">
+            <span class="material-symbols-outlined text-sm">history</span>
+            <span id="save-status">Studio Session • All changes saved</span>
+        </div>
+        <!-- Right: Export -->
+        <div class="flex items-center gap-3">
+            <a href="{{ url_for('dashboard') }}" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-bold text-slate-200 transition-all duration-200 hover:bg-white/10">
+                Home
+            </a>
+            <a href="{{ url_for('logout_page') }}" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-bold text-slate-200 transition-all duration-200 hover:bg-white/10">
+                Logout
+            </a>
+            <button id="btn-export-pdf" class="bg-primary hover:bg-primary-dark text-slate-950 text-xs font-bold rounded-xl px-4 py-2.5 flex items-center gap-1.5 transition-all duration-200 hover:shadow-ambient active:scale-95">
+                <span class="material-symbols-outlined text-sm">download</span>
+                Export PDF
+            </button>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- MAIN LAYOUT (Sidebar + Workspace + Live Preview)               -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="workspace-shell flex flex-1 gap-4 overflow-hidden border-t border-white/5 p-4">
+
+        <!-- ─────────────────────────────────────────────────────────── -->
+        <!-- LEFT SIDEBAR                                                -->
+        <!-- ─────────────────────────────────────────────────────────── -->
+        <div id="sidebar-root" class="workspace-sidebar sticky top-20 shrink-0 bg-white/5 backdrop-blur-md border border-white/10 rounded-[28px] flex flex-col overflow-y-auto z-10 obsidian-panel-reflective">
+
+            <!-- Top Tabs: Editor / ATS -->
+            <div class="flex gap-1 p-2">
+                <button data-view="editor" class="view-tab flex-1 justify-start text-left text-xs font-bold py-2.5 px-4 rounded-xl transition-all bg-neutral-800 text-white">
+                    Studio
+                </button>
+                <button data-view="ats" class="view-tab flex-1 justify-start text-left text-xs font-bold py-2.5 px-4 rounded-xl transition-all text-slate-300 hover:bg-white/5">
+                    ATS Lab
+                </button>
+            </div>
+
+            <!-- STATE 1: Content Editor Sidebar -->
+            <aside id="editor-sidebar" class="flex-1 py-4 px-2 space-y-1">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.24em] px-4 mb-3">Resume Blueprint</p>
+
+                <div class="px-3 mb-3">
+                    <div class="rounded-xl border border-cyan-300/20 bg-cyan-300/8 px-3 py-3">
+                        <p class="text-[10px] font-bold text-cyan-200 uppercase tracking-[0.2em] mb-2">Resume Health</p>
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            <div class="section-progress-card">
+                                <span>Completeness</span><br /><strong><span id="counter-resume-completeness" data-counter-target="0" data-counter-suffix="%">0</span></strong>
+                            </div>
+                            <div class="section-progress-card">
+                                <span>ATS Live</span><br /><strong><span id="counter-ats-live" data-counter-target="0" data-counter-suffix="%">0</span></strong>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="section-progress-card"><span>Personal</span><br /><strong id="progress-personal">0%</strong></div>
+                            <div class="section-progress-card"><span>Summary</span><br /><strong id="progress-summary">0%</strong></div>
+                            <div class="section-progress-card"><span>Experience</span><br /><strong id="progress-experience">0%</strong></div>
+                            <div class="section-progress-card"><span>Projects</span><br /><strong id="progress-projects">0%</strong></div>
+                            <div class="section-progress-card col-span-2"><span>Skills</span><br /><strong id="progress-skills">0%</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Buttons -->
+                <button data-section="personal" class="tab-active w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-white/5 text-left">
+                    <span class="material-symbols-outlined text-lg">person</span> Personal Info
+                </button>
+                <button data-section="summary" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                    <span class="material-symbols-outlined text-lg">subject</span> Summary
+                </button>
+                <button data-section="education" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                    <span class="material-symbols-outlined text-lg">school</span> Education
+                </button>
+                <button data-section="experience" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                    <span class="material-symbols-outlined text-lg">work</span> Experience
+                </button>
+                <button data-section="projects" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                    <span class="material-symbols-outlined text-lg">deployed_code</span> Projects
+                </button>
+                <button data-section="skills" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                    <span class="material-symbols-outlined text-lg">code</span> Skills
+                </button>
+                <button data-section="certifications" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                    <span class="material-symbols-outlined text-lg">verified</span> Certifications
+                </button>
+
+                <div class="mt-4 px-3">
+                    <div class="rounded-xl border border-white/10 bg-white/5 px-3 py-3">
+                        <label for="resume-template-select" class="block text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 mb-2">Template</label>
+                        <select id="resume-template-select" class="w-full rounded-lg border border-white/15 bg-black/30 px-2.5 py-2 text-[12px] text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300/40">
+                            <option value="modern">Modern</option>
+                            <option value="classic">Classic</option>
+                            <option value="compact">Compact</option>
+                            <option value="minimal">Minimal</option>
+                            <option value="executive">Executive</option>
+                            <option value="noir">Noir</option>
+                            <option value="aurora">Aurora</option>
+                            <option value="timeline">Timeline</option>
+                            <option value="split">Split Grid</option>
+                            <option value="mono">Monochrome</option>
+                            <option value="skyline">Skyline</option>
+                            <option value="matrix">Matrix</option>
+                            <option value="paperclip">Paperclip</option>
+                            <option value="zen">Zen</option>
+                            <option value="neon">Neon</option>
+                        </select>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- STATE 2: ATS Match Sidebar -->
+            <div id="ats-sidebar" class="hidden flex-1 py-4 px-3 space-y-4 overflow-y-auto">
+                
+                <!-- Target Role -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <p class="text-xs font-bold text-white">Target Role</p>
+                        <button id="edit-target-role" class="text-primary hover:opacity-70 transition-colors" title="Edit Job Description" aria-label="Edit target role">
+                            <span class="material-symbols-outlined text-sm">edit</span>
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-slate-300 line-clamp-3">Ready to analyze your resume. Click the edit button to add a job description.</p>
+
+                    <div class="mt-3 rounded-lg border border-white/10 bg-black/20 p-2.5">
+                        <label for="ats-engine-mode-quick" class="block text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 mb-1.5">Engine Mode</label>
+                        <select id="ats-engine-mode-quick" class="input-dark w-full rounded-lg px-2.5 py-2 text-xs">
+                            <option value="auto" selected>Auto (Local + API)</option>
+                            <option value="local">Local ML Model Only</option>
+                            <option value="api">API Model Only</option>
+                        </select>
+                    </div>
+
+                    <button id="edit-target-role-inline" class="mt-3 w-full rounded-lg border border-cyan-300/25 bg-cyan-300/10 px-3 py-2 text-[11px] font-bold text-cyan-200 transition-all hover:bg-cyan-300/20">
+                        Add / Edit Job Description
+                    </button>
+                </div>
+
+                <!-- ATS Score Ring -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col items-start depth-card">
+                    <div class="relative w-28 h-28 mb-4 self-start" id="ats-score-3d-wrap">
+                        <div id="ats-score-3d" class="absolute inset-0 rounded-full"></div>
+                        <svg class="hidden w-full h-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
+                            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" />
+                            <circle id="ats-score-circle" cx="50" cy="50" r="42" fill="none" stroke="#22d3ee" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" class="transition-all duration-1000 ease-out" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="ats-score-text" class="text-3xl font-black tracking-tight text-cyan-300">0</span>
+                        </div>
+                    </div>
+                    <p class="w-full text-left text-[11px] text-slate-300 mt-1">AI calculated match percentage based on required skills.</p>
+                </div>
+
+                <!-- Keyword Analysis -->
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <p class="text-xs font-bold text-white">Keyword Analysis</p>
+                    <div>
+                        <p class="text-[10px] text-slate-400 mb-2">Found in Resume</p>
+                        <div id="found-keywords" class="flex flex-wrap gap-1.5 border-b border-white/5 pb-3">
+                            <span class="text-[10px] text-slate-400 italic">Enter a JD to see matches.</span>
+                        </div>
+                    </div>
+                    <div class="pt-1">
+                        <p class="text-[10px] text-slate-400 mb-2">Missing Keywords</p>
+                        <div id="missing-keywords" class="flex flex-wrap gap-1.5">
+                            <span class="text-[10px] text-slate-400 italic">No analysis run yet.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────────────────── -->
+        <!-- MAIN WORKSPACE                                              -->
+        <!-- ─────────────────────────────────────────────────────────── -->
+        <main class="workspace-main flex-1 overflow-hidden">
+
+            <!-- ═══  EDITOR FORM PANEL  ═══ -->
+            <section id="editor-form-panel" class="workspace-panel reveal-left bg-white/5 backdrop-blur-md border border-white/10 rounded-[28px] overflow-y-auto p-6 relative z-10 obsidian-panel-reflective">
+                
+                <!-- Section: Personal Info -->
+                <div id="section-personal" class="form-section max-w-2xl mx-auto space-y-6 animate-fade-in">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-xl">person</span>
+                            <h2 class="text-xl font-bold text-white tracking-tight">Personal Information</h2>
+                        </div>
+                        <button onclick="document.getElementById('magic-modal').classList.remove('hidden')" class="flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs text-primary font-bold hover:bg-primary/20 transition">
+                            <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                            Magic Auto-Fill
+                        </button>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 space-y-5">
+                        <div class="grid grid-cols-2 gap-5">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Full Name</label>
+                                <input data-bind="personal.fullName" type="text" placeholder="Alice Johnson" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Email</label>
+                                <input data-bind="personal.email" type="email" placeholder="alice@example.com" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Phone</label>
+                                <input data-bind="personal.phone" type="tel" placeholder="(555) 123-4567" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Location</label>
+                                <input data-bind="personal.location" type="text" placeholder="San Francisco, CA" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
+                            </div>
+                            <div class="col-span-1">
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">LinkedIn</label>
+                                <input data-bind="personal.linkedin" type="url" placeholder="linkedin.com/in/alice" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Summary -->
+                <div id="section-summary" class="form-section hidden max-w-2xl mx-auto space-y-6">
+                    <div class="flex items-center justify-between gap-3 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">subject</span>
+                            <h2 class="text-lg font-bold text-white">Professional Summary</h2>
+                        </div>
+                        <button id="btn-generate-summary" type="button" class="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-primary transition hover:bg-primary/20">
+                            <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                            AI Generate
+                        </button>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 space-y-4">
+                        <textarea data-bind="summary" rows="6" placeholder="Senior Developer with 4+ years of experience..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- Section: Education -->
+                <div id="section-education" class="form-section hidden max-w-2xl mx-auto space-y-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary">school</span>
+                        <h2 class="text-lg font-bold text-white">Education</h2>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">School</label>
+                                <input data-bind="education.0.school" type="text" placeholder="University of California" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div class="col-span-2 md:col-span-1">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Degree</label>
+                                <input data-bind="education.0.degree" type="text" placeholder="B.S. Computer Science" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="flex-1">
+                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Start</label>
+                                    <input data-bind="education.0.startYear" type="text" placeholder="2016" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">End</label>
+                                    <input data-bind="education.0.endYear" type="text" placeholder="2020" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Experience -->
+                <div id="section-experience" class="form-section hidden max-w-2xl mx-auto space-y-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary">work</span>
+                        <h2 class="text-lg font-bold text-white">Experience</h2>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Company</label>
+                                <input data-bind="experience.0.companyName" type="text" placeholder="TechNova" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Role</label>
+                                <input data-bind="experience.0.role" type="text" placeholder="Software Engineer" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div class="col-span-2">
+                                <div class="mb-1.5 flex items-center justify-between gap-3">
+                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Description (Bullet points)</label>
+                                    <button type="button" class="ai-magic-btn ai-optimize-btn" data-target="experience.0.description" title="AI Magic Rewrite" aria-label="AI Magic Rewrite">
+                                        <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                                    </button>
+                                </div>
+                                <textarea data-bind="experience.0.description" rows="4" placeholder="• Led development of API..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Projects -->
+                <div id="section-projects" class="form-section hidden max-w-2xl mx-auto space-y-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary">deployed_code</span>
+                        <h2 class="text-lg font-bold text-white">Project Gallery</h2>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 space-y-4 border border-cyan-300/20">
+                        <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400">Obsidian Card</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Project Title</label>
+                                <input data-bind="projects.0.title" type="text" placeholder="Realtime Resume Analyzer" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Tech Stack (comma separated)</label>
+                                <input data-bind="projects.0.techStack" type="text" placeholder="Flask, PostgreSQL, GSAP, Tailwind" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div class="col-span-2">
+                                <div class="mb-1.5 flex items-center justify-between gap-3">
+                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Description</label>
+                                    <button type="button" class="ai-magic-btn ai-optimize-btn" data-target="projects.0.description" title="AI Magic Rewrite" aria-label="AI Magic Rewrite">
+                                        <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                                    </button>
+                                </div>
+                                <textarea data-bind="projects.0.description" rows="4" placeholder="• Built...&#10;• Improved..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">GitHub Link</label>
+                                <input data-bind="projects.0.githubLink" type="url" placeholder="https://github.com/user/repo" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Demo Link</label>
+                                <input data-bind="projects.0.demoLink" type="url" placeholder="https://demo.example.com" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Created Date</label>
+                                <input data-bind="projects.0.createdDate" type="month" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Skills -->
+                <div id="section-skills" class="form-section hidden max-w-2xl mx-auto space-y-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary">code</span>
+                        <h2 class="text-lg font-bold text-white">Skills</h2>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 space-y-4">
+                        <textarea data-bind="skillsString" rows="4" placeholder="Python, Django, AWS, React..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
+                        <p class="text-[10px] text-slate-400 mt-1.5">Separate with commas.</p>
+                    </div>
+                </div>
+
+                <!-- Section: Certifications -->
+                <div id="section-certifications" class="form-section hidden max-w-2xl mx-auto space-y-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary">verified</span>
+                        <h2 class="text-lg font-bold text-white">Certifications</h2>
+                    </div>
+
+                    <div class="glass-card glass-id-card depth-card rounded-2xl p-5 space-y-4 border border-cyan-300/20 transition-transform duration-300">
+                        <div class="flex items-center justify-between gap-3">
+                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400">Glass ID Card</p>
+                            <span data-verified-badge="0" class="hidden inline-flex items-center gap-1 rounded-full border border-emerald-300/30 bg-emerald-300/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-200">
+                                <span class="material-symbols-outlined text-xs">verified</span>
+                                Verified
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Certification Name</label>
+                                <input data-bind="certifications.0.name" type="text" placeholder="AWS Certified Developer - Associate" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+
+                            <div class="col-span-2 md:col-span-1">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Issuing Organization</label>
+                                <input data-bind="certifications.0.issuingOrganization" type="text" placeholder="Amazon Web Services" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+
+                            <div class="col-span-2 md:col-span-1">
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Credential URL</label>
+                                <input data-bind="certifications.0.credentialUrl" type="url" placeholder="https://www.credly.com/..." class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Issue Date</label>
+                                <input data-bind="certifications.0.issueDate" type="date" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Expiration Date</label>
+                                <input data-bind="certifications.0.expirationDate" type="date" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ═══  ATS ANALYSIS PANEL (hidden by default)  ═══ -->
+            <section id="ats-panel" class="workspace-panel hidden bg-white/5 backdrop-blur-md border border-white/10 rounded-[28px] overflow-y-auto p-6 relative z-10 obsidian-panel-reflective">
+                <!-- Welcome State -->
+                <div id="ats-welcome-state" class="max-w-4xl mx-auto py-10 animate-fade-in">
+                    <div class="mb-8 rounded-3xl border border-white/8 bg-white/4 p-6 md:p-8 shadow-glass">
+                        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                            <div class="max-w-xl">
+                                <p class="text-[10px] uppercase tracking-[0.28em] text-primary mb-3">ATS Analysis Workspace</p>
+                                <h2 class="font-display text-3xl md:text-4xl text-white leading-tight">Paste a target role, then get a sharper match signal.</h2>
+                                <p class="mt-3 text-sm text-slate-300">The center panel now works like a guided analysis desk instead of a blank placeholder. Add the JD, run the scan, and review the top mismatch signals in one place.</p>
+                            </div>
+                            <button id="btn-edit-target-role-hero" class="hidden md:inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-semibold text-white hover:bg-white/10 transition">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                                Edit target role
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 md:grid-cols-3">
+                        <div class="glass-card rounded-2xl p-5">
+                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Step 01</p>
+                            <h3 class="text-base font-bold text-white mb-2">Add the job description</h3>
+                            <p class="text-sm text-slate-300">Paste the role you want and keep the requirements visible while you edit your resume.</p>
+                        </div>
+                        <div class="glass-card rounded-2xl p-5">
+                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Step 02</p>
+                            <h3 class="text-base font-bold text-white mb-2">Run the scan</h3>
+                            <p class="text-sm text-slate-300">The analyzer highlights matching skills, missing phrases, and weak positioning.</p>
+                        </div>
+                        <div class="glass-card rounded-2xl p-5">
+                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Step 03</p>
+                            <h3 class="text-base font-bold text-white mb-2">Refine the story</h3>
+                            <p class="text-sm text-slate-300">Use the result cards to tighten your summary and line up the strongest evidence.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 rounded-2xl border border-white/8 bg-black/20 p-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="material-symbols-outlined text-primary text-base">tips_and_updates</span>
+                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">What to paste</p>
+                        </div>
+                        <p class="text-sm text-slate-300">Use a real job description with responsibilities, required skills, and preferred tools. The more concrete the JD, the better the score signal becomes.</p>
+                    </div>
+                </div>
+
+                <!-- Edit State -->
+                <div id="ats-edit-state" class="hidden max-w-4xl mx-auto space-y-6 animate-fade-in">
+                    <div class="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">work</span>
+                                <h2 class="text-lg font-bold text-white">Target Job Description</h2>
+                            </div>
+                            <p class="text-sm text-slate-300">Paste the job you are aiming for. The analyzer compares its language against your resume and shows the weakest links.</p>
+                            <textarea id="job-description-input" rows="17" placeholder="Paste JD..." class="input-dark w-full rounded-2xl px-4 py-4 text-sm resize-none"></textarea>
+
+                            <div class="rounded-xl border border-white/10 bg-black/20 p-3">
+                                <label for="ats-engine-mode" class="block text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">Analysis Engine</label>
+                                <select id="ats-engine-mode" class="input-dark w-full rounded-lg px-3 py-2.5 text-sm">
+                                    <option value="auto" selected>Auto (Best of Local + API)</option>
+                                    <option value="local">Local ML Model Only</option>
+                                    <option value="api">API Model Only</option>
+                                </select>
+                                <p class="text-[11px] text-slate-400 mt-2">Pick <strong class="text-slate-200">Local</strong> for offline-safe analysis and lower latency.</p>
+                            </div>
+
+                            <button id="btn-start-ai-analysis" class="w-full bg-cyan-400 text-neutral-950 py-3.5 rounded-2xl text-sm font-extrabold flex items-center justify-center gap-2 mt-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-300 hover:shadow-[0_18px_36px_rgba(34,211,238,0.16)] active:translate-y-0">
+                                <span class="material-symbols-outlined text-base">auto_awesome</span>
+                                Start AI Analysis
+                            </button>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="glass-card rounded-2xl p-6">
+                                <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Guidance</p>
+                                <h3 class="text-base font-bold text-white mb-2">Use the JD as your brief</h3>
+                                <ul class="space-y-2 text-sm text-slate-300 leading-relaxed">
+                                    <li>• Keep responsibilities and skills in the text.</li>
+                                    <li>• Include the must-have tools and domains.</li>
+                                    <li>• Avoid copy-pasting a full company page.</li>
+                                </ul>
+                            </div>
+                            <div class="glass-card rounded-2xl p-6">
+                                <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Best result</p>
+                                <p class="text-sm text-slate-300">A focused JD gives better keyword matches, cleaner suggestions, and a score that reflects the actual application gap.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results State -->
+                <div id="ats-results-state" class="hidden max-w-4xl mx-auto space-y-6 animate-fade-in">
+                    <div class="glass-card rounded-3xl p-6 md:p-7">
+                        <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-primary mb-2">ATS Insight Deck</p>
+                        <h2 id="ats-result-headline" class="font-display text-3xl text-white leading-tight">Strong fit. Final polish needed.</h2>
+                        <p id="ats-result-subcopy" class="text-sm text-slate-300 mt-2 max-w-2xl">Your profile aligns with most requirements. Focus on missing keywords and measurable impact language.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button id="btn-edit-jd-again" type="button" class="inline-flex items-center gap-1.5 rounded-full border border-slate-400/20 px-3.5 py-1.5 text-xs font-bold text-slate-200 hover:bg-white/5 transition">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                                Update JD
+                            </button>
+                            <button id="btn-jump-summary" type="button" class="inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-primary-dark transition">
+                                <span class="material-symbols-outlined text-sm">description</span>
+                                Refine Summary
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] gap-4">
+                        <div class="glass-card rounded-2xl p-5">
+                            <p class="text-xs font-bold text-white mb-2">Top Matched Keywords</p>
+                            <ul id="ats-top-found" class="space-y-1 text-sm text-slate-200"></ul>
+                        </div>
+                        <div class="glass-card rounded-2xl p-5">
+                            <p class="text-xs font-bold text-white mb-2">Top Missing Keywords</p>
+                            <ul id="ats-top-missing" class="space-y-1 text-sm text-slate-200"></ul>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-5">
+                        <p class="text-xs font-bold text-white mb-2">Suggested Improvements</p>
+                        <ul id="ats-suggestion-list" class="space-y-2 text-sm text-slate-300"></ul>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-5 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border-indigo-500/20">
+                        <div class="flex justify-between items-center mb-4">
+                            <p class="text-xs font-bold text-white">Zero-Shot Career Matcher (BART AI)</p>
+                            <button id="btn-fetch-role-match" class="text-[10px] bg-indigo-500 hover:bg-indigo-400 text-white px-2 py-1 rounded">Scan Role Fit</button>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-3">Evaluates your resume's core identity against targeted career paths.</p>
+                        <div id="role-match-bars" class="space-y-3">
+                            <p class="text-[10px] text-slate-500 text-center italic">Click "Scan Role Fit" to generate.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="glass-card rounded-2xl p-5">
+                            <p class="text-xs font-bold text-white mb-3">Local Engine</p>
+                            <p id="ats-local-engine-score" class="text-sm text-slate-300">Score: --</p>
+                            <p id="ats-local-engine-summary" class="text-xs text-slate-400 mt-2">Awaiting analysis.</p>
+                        </div>
+                        <div class="glass-card rounded-2xl p-5">
+                            <p class="text-xs font-bold text-white mb-3">API Engine</p>
+                            <p id="ats-api-engine-score" class="text-sm text-slate-300">Score: --</p>
+                            <p id="ats-api-engine-summary" class="text-xs text-slate-400 mt-2">Awaiting analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══  LIVE PREVIEW PANEL  ═══ -->
+            <section id="live-preview-panel" class="workspace-preview reveal-right relative overflow-hidden bg-neutral-950 flex items-center justify-center p-8 lg:p-10 z-0 depth-card">
+                <div class="absolute inset-0 pointer-events-none opacity-18 [background-image:radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:22px_22px]"></div>
+                <div class="absolute top-1/5 left-1/2 -translate-x-1/2 w-[460px] h-[460px] bg-cyan-400/6 rounded-full blur-[120px] pointer-events-none"></div>
+
+                <div class="relative w-full max-w-[820px]">
+                    <div class="mb-6 flex items-center justify-between px-2 text-[10px] uppercase tracking-[0.28em] text-slate-400">
+                        <span>Live Preview</span>
+                        <span>Paper scale · focus mode</span>
+                    </div>
+
+                    <div id="resume-pdf-content" class="paper-card relative mx-auto w-[595px] min-h-[842px] p-14 text-sm leading-relaxed transition-all duration-300 ease-out" style="transform: perspective(1000px) scale(1);">
+                        <!-- Content injected by editor.js renderPreview() -->
+                        <header class="border-b border-slate-900/10 pb-6 mb-6">
+                            <h1 class="text-3xl font-black tracking-tight uppercase mb-2">Your Name</h1>
+                        </header>
+                        <section class="mb-6">
+                            <p class="text-xs text-slate-700 leading-relaxed">Start typing in the editor...</p>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Floating Tooltips -->
+                <div id="tooltip-ai-suggestion" class="hidden absolute top-[25%] right-[10%] z-40">
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-danger/15 backdrop-blur-xl border border-danger/25 shadow-glass">
+                        <span class="material-symbols-outlined text-danger text-sm">psychology</span>
+                        <div>
+                            <p class="text-[9px] font-black text-danger tracking-widest uppercase">AI Suggestion</p>
+                            <p class="text-[10px] text-slate-300">Suggestion text</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SCRIPTS                                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div id="login-modal" class="hidden fixed inset-0 z-[100] items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md"></div>
+        <div class="relative z-[101] w-full max-w-md rounded-[28px] border border-white/10 bg-slate-950/92 shadow-glass backdrop-blur-2xl p-6 md:p-8 text-white">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-2xl bg-primary/12 border border-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">lock</span>
+                </div>
+                <div>
+                    <h2 class="text-xl font-extrabold tracking-tight">Sign in to continue</h2>
+                    <p class="text-xs text-slate-400">Authenticate to refresh your session and retry the last action.</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="login-email" class="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Email</label>
+                    <input id="login-email" type="email" class="input-dark w-full rounded-xl px-4 py-3 text-sm" placeholder="you@example.com" autocomplete="email" />
+                </div>
+                <div>
+                    <label for="login-password" class="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Password</label>
+                    <input id="login-password" type="password" class="input-dark w-full rounded-xl px-4 py-3 text-sm" placeholder="Your password" autocomplete="current-password" />
+                </div>
+                <button id="btn-do-login" class="w-full rounded-xl bg-primary hover:bg-primary-dark text-on-primary font-bold py-3 transition-all duration-200 hover:shadow-ambient active:scale-[0.99]">
+                    Sign In
+                </button>
+                <p id="login-status" class="text-xs text-slate-400 min-h-4"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAGIC CV PARSER MODAL -->
+    <div id="magic-modal" class="hidden fixed inset-0 z-[100] items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md" onclick="document.getElementById('magic-modal').classList.add('hidden')"></div>
+        <div class="relative z-[101] w-full max-w-lg rounded-[28px] border border-primary/20 bg-slate-950/92 shadow-[#76d8cf_0_0_30px_-10px] backdrop-blur-2xl p-6 md:p-8 text-white">
+            <h2 class="text-xl font-extrabold tracking-tight text-primary mb-2 flex items-center gap-2"><span class="material-symbols-outlined">auto_awesome</span> Magic Resume Parser</h2>
+            <p class="text-xs text-slate-300 mb-4">Paste your raw text CV below. Our SpaCy ML engine will automatically extract your name, email, phone, and work experience dates/companies.</p>
+            <textarea id="magic-cv-text" class="input-dark w-full rounded-xl px-4 py-3 text-sm h-48 mb-4 resize-none" placeholder="Paste your raw resume text here..."></textarea>
+            <div class="flex justify-end gap-3">
+                <button onclick="document.getElementById('magic-modal').classList.add('hidden')" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:bg-white/10">Cancel</button>
+                <button id="btn-run-magic" class="px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-black hover:bg-primary-dark shadow-ambient">Parse & Fill</button>
+            </div>
+        </div>
+    </div>
+    <div id="ai-thinking-overlay" class="ai-thinking-overlay" aria-live="polite" aria-hidden="true">
+        <div class="ai-thinking-card">
+            <span class="ai-thinking-spinner" aria-hidden="true"></span>
+            <span id="ai-thinking-text">AI is thinking...</span>
+        </div>
+    </div>
+    <script defer src="{{ url_for('static', filename='js/scroll-counters.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}?v=12"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Role Matcher logic
+            const btnRoleMatch = document.getElementById('btn-fetch-role-match');
+            if (btnRoleMatch) {
+                btnRoleMatch.addEventListener('click', async () => {
+                    btnRoleMatch.innerText = "Scanning...";
+                    const barContainer = document.getElementById('role-match-bars');
+                    barContainer.innerHTML = `<p class="text-[10px] text-slate-300 text-center animate-pulse">Running BART Zero-Shot Classification...</p>`;
+                    
+                    // Grab current resume text generated by editor
+                    // Fallback to empty if not rendered
+                    const resumePreview = document.getElementById('resume-pdf-content');
+                    const text = resumePreview ? resumePreview.innerText : "";
+                    
+                    try {
+                        const res = await fetch("/api/v1/role-match", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ 
+                                text: text,
+                                roles: ["Software Engineer", "Backend Developer", "Data Scientist", "UI/UX Designer", "Product Manager"]
+                            })
+                        });
+                        const payload = await res.json();
+                        
+                        barContainer.innerHTML = '';
+                        if (payload.data) {
+                            for (const [role, score] of Object.entries(payload.data)) {
+                                barContainer.innerHTML += `
+                                    <div class="relative pt-1">
+                                      <div class="flex mb-1 items-center justify-between">
+                                        <div><span class="text-[10px] font-bold uppercase text-indigo-300">${role}</span></div>
+                                        <div class="text-right"><span class="text-[10px] font-bold text-white">${score}%</span></div>
+                                      </div>
+                                      <div class="overflow-hidden h-1.5 mb-1 text-xs flex rounded bg-indigo-500/20">
+                                        <div style="width:${score}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-400"></div>
+                                      </div>
+                                    </div>
+                                `;
+                            }
+                        }
+                    } catch (e) {
+                        barContainer.innerHTML = `<p class="text-xs text-red-400 text-center">Failed to fetch role matches.</p>`;
+                    }
+                    btnRoleMatch.innerText = "Scan Role Fit";
+                });
+            }
+
+            // Magic Parser Logic
+            const btnMagic = document.getElementById('btn-run-magic');
+            if (btnMagic) {
+                btnMagic.addEventListener('click', async () => {
+                    const txt = document.getElementById('magic-cv-text').value;
+                    if (!txt) return;
+                    
+                    btnMagic.innerText = "Parsing...";
+                    
+                    try {
+                        const res = await fetch("/api/v1/auto-parse", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ text: txt })
+                        });
+                        const payload = await res.json();
+                        
+                        if (payload.data) {
+                            const p = payload.data.personal_info || {};
+                            if (p.name) document.querySelector('[data-bind="personal.fullName"]').value = p.name;
+                            if (p.email) document.querySelector('[data-bind="personal.email"]').value = p.email;
+                            if (p.phone) document.querySelector('[data-bind="personal.phone"]').value = p.phone;
+                            
+                            // Trigger input events to notify Alpine/JS reactive state
+                            document.querySelectorAll('[data-bind^="personal."]').forEach(el => el.dispatchEvent(new Event('input')));
+                            
+                            document.getElementById('magic-modal').classList.add('hidden');
+                            alert("Personal info auto-filled! (Experience blocks extraction logic is available in backend response and can be hooked to DOM similarly via the array structure).");
+                        }
+                    } catch (e) {
+                        alert("Failed to parse CV.");
+                    }
+                    btnMagic.innerText = "Parse & Fill";
+                });
+            }
+        });
+    </script>
+</body>
+</html>
