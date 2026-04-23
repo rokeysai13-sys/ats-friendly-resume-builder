@@ -1,0 +1,16 @@
+venv/
+.pytest_cache/
+tests/
+instance/
+docs/
+*.pyc
+__pycache__/
+.env
+.git/
+old_gitignore.txt
+.gitignore_utf8.txt
+verify_production_config.py
+list_users.py
+reset_user_password.py
+seed.py
+pytest.ini
