@@ -1526,18 +1526,119 @@ Editor = class Editor {
         const selector = this.elements.templateSelect;
         if (!selector) return;
 
+        // ── Template metadata ──────────────────────────────────────────────
+        const TEMPLATES = [
+            { value: 'modern',    label: 'Modern',    icon: 'auto_awesome',      desc: 'Clean & contemporary' },
+            { value: 'classic',   label: 'Classic',   icon: 'menu_book',         desc: 'Timeless professional' },
+            { value: 'minimal',   label: 'Minimal',   icon: 'crop_square',       desc: 'Less is more' },
+            { value: 'executive', label: 'Executive', icon: 'business_center',   desc: 'C-suite ready' },
+            { value: 'compact',   label: 'Compact',   icon: 'compress',          desc: 'One-page optimised' },
+            { value: 'split',     label: 'Split Grid', icon: 'view_column',      desc: 'Two-column layout' },
+            { value: 'noir',      label: 'Noir',       icon: 'dark_mode',        desc: 'Dark & dramatic' },
+            { value: 'timeline',  label: 'Timeline',   icon: 'timeline',         desc: 'Story-driven flow' },
+            { value: 'zen',       label: 'Zen',        icon: 'self_improvement',  desc: 'Ultra minimal calm' },
+            { value: 'harvard',   label: 'Harvard',    icon: 'school',           desc: 'Academic prestige' },
+            { value: 'chicago',   label: 'Chicago',    icon: 'location_city',    desc: 'Bold editorial' },
+            { value: 'stanford',  label: 'Stanford',   icon: 'emoji_events',     desc: 'Innovative edge' },
+        ];
+
+        // ── DOM references ─────────────────────────────────────────────────
+        const label    = document.getElementById('tpl-picker-label');
+        const grid     = document.getElementById('tpl-picker-grid');
+        const openBtn  = document.getElementById('btn-open-template-picker');
+        const applyBtn = document.getElementById('btn-apply-template'); // ← explicit ID
+
+        // ── Core apply function ────────────────────────────────────────────
+        const applyTemplate = (value) => {
+            // Update the hidden <select> so the store subscription fires
+            selector.value = value;
+            selector.dispatchEvent(new Event('change'));
+        };
+
+        const highlightCard = (value) => {
+            if (!grid) return;
+            grid.querySelectorAll('.tpl-card').forEach(card => {
+                const isActive = card.dataset.tplValue === value;
+                card.classList.toggle('ring-2',           isActive);
+                card.classList.toggle('ring-[#ff5a1f]',   isActive);
+                card.classList.toggle('bg-white/10',      isActive);
+                card.classList.toggle('bg-white/4',      !isActive);
+            });
+        };
+
+        const updateLabel = (value) => {
+            const t = TEMPLATES.find(t => t.value === value);
+            if (label && t) label.textContent = t.label;
+        };
+
+        // ── Inject cards ───────────────────────────────────────────────────
+        if (grid) {
+            grid.innerHTML = TEMPLATES.map(t => `
+                <button
+                    class="tpl-card group flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/4 p-4 text-center transition-all hover:bg-white/10 hover:border-[#ff5a1f]/40 active:scale-95"
+                    data-tpl-value="${t.value}"
+                    type="button"
+                    title="${t.label}"
+                >
+                    <span class="material-symbols-outlined text-3xl text-[#ff7a45] group-hover:scale-110 transition-transform">${t.icon}</span>
+                    <span class="text-[12px] font-bold text-white leading-tight">${t.label}</span>
+                    <span class="text-[10px] text-gray-400 leading-tight">${t.desc}</span>
+                </button>
+            `).join('');
+
+            // Card click → immediately apply + highlight (live preview update)
+            grid.addEventListener('click', (e) => {
+                const card = e.target.closest('.tpl-card');
+                if (!card) return;
+                const value = card.dataset.tplValue;
+                highlightCard(value);
+                applyTemplate(value);  // instant live preview
+            });
+        }
+
+        // ── Open button ────────────────────────────────────────────────────
+        if (openBtn) {
+            openBtn.addEventListener('click', () => {
+                const current = store.state.template || 'modern';
+                highlightCard(current);
+                if (typeof window.showModal === 'function') {
+                    window.showModal('template-picker-modal');
+                } else {
+                    const modal = document.getElementById('template-picker-modal');
+                    if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+                }
+            });
+        }
+
+        // ── Apply button → just close (template already applied on card click) ─
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => {
+                if (typeof window.hideModal === 'function') {
+                    window.hideModal('template-picker-modal');
+                } else {
+                    const modal = document.getElementById('template-picker-modal');
+                    if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+                }
+            });
+        }
+
+        // ── Hidden select drives everything ────────────────────────────────
         selector.value = store.state.template || 'modern';
         selector.addEventListener('change', () => {
             const selected = selector.value || 'modern';
             store.update('template', selected);
             this.renderPreview(store.state);
+            updateLabel(selected);
         });
 
         store.subscribe('template', (value) => {
-            if (selector.value !== value) {
-                selector.value = value || 'modern';
-            }
+            if (selector.value !== value) selector.value = value || 'modern';
+            updateLabel(value);
+            highlightCard(value);
         });
+
+        // Set initial label
+        updateLabel(store.state.template || 'modern');
     }
 
     /**
@@ -1592,12 +1693,51 @@ Editor = class Editor {
         if (!container) return;
         const template = state.template || 'modern';
 
+        // ── Placeholder sample data so the preview is never blank ──────────
+        const SAMPLE = {
+            fullName:  'Alex Johnson',
+            phone:     '(555) 123-4567',
+            location:  'San Francisco, CA',
+            email:     'alex@example.com',
+            linkedin:  'linkedin.com/in/alexjohnson',
+            summary:   'Results-driven software engineer with 5+ years building scalable web applications. Passionate about clean architecture, developer experience, and shipping products that users love.',
+            experience: [{ companyName: 'Acme Corp', role: 'Senior Software Engineer', startDate: 'Jan 2021', endDate: 'Present', description: '• Led migration of monolithic Rails app to microservices, reducing p99 latency by 42%.\n• Mentored 4 junior engineers and established code-review best practices.' }],
+            education:  [{ school: 'UC Berkeley', degree: 'B.S. Computer Science', startYear: '2015', endYear: '2019' }],
+            skillsString: 'React, TypeScript, Node.js, PostgreSQL, Docker, AWS',
+            projects: [{ title: 'OpenDash', techStack: 'Next.js · Vercel · Supabase', description: 'Open-source analytics dashboard with real-time websocket updates.', githubLink: '', demoLink: '', createdDate: '2023' }]
+        };
+
+        const hasRealData = (state.personal?.fullName || '').trim() ||
+                            (state.summary || '').trim() ||
+                            (state.experience?.some(e => (e?.companyName || '').trim()));
+
+        const s = hasRealData ? {
+            personal: state.personal,
+            summary:  state.summary,
+            experience: state.experience,
+            education:  state.education,
+            skillsString: state.skillsString,
+            projects: state.projects,
+            certifications: state.certifications
+        } : {
+            personal: { fullName: SAMPLE.fullName, phone: SAMPLE.phone, location: SAMPLE.location, email: SAMPLE.email, linkedin: SAMPLE.linkedin },
+            summary:  SAMPLE.summary,
+            experience: SAMPLE.experience,
+            education:  SAMPLE.education,
+            skillsString: SAMPLE.skillsString,
+            projects: SAMPLE.projects,
+            certifications: []
+        };
+        // rebind state reference to resolved data
+        state = { ...state, ...s };
+
         const skillsArr = state.skillsString ? state.skillsString.split(',').map(s => s.trim()).filter(s => s) : [];
         const skillsHtml = skillsArr
             .map(s => `<span class="inline-flex items-center rounded-full border border-slate-300 bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-slate-700 mr-1 mb-1">${s}</span>`)
             .join('');
 
         const contactParts = [
+            state.personal?.phone,
             state.personal?.location,
             state.personal?.email,
             state.personal?.linkedin,
@@ -2000,6 +2140,67 @@ Editor = class Editor {
                     ${skillsBlock.replace(/bg-slate-100/g, 'bg-fuchsia-900').replace(/text-slate-700/g, 'text-fuchsia-100').replace(/border-slate-300/g, 'border-fuchsia-700').replace(/text-slate-500/g, 'text-fuchsia-300').replace(/bg-slate-200/g, 'bg-fuchsia-500')}
                     ${educationBlock.replace(/text-slate-900/g, 'text-fuchsia-200').replace(/text-slate-600/g, 'text-fuchsia-300').replace(/text-slate-500/g, 'text-fuchsia-300').replace(/bg-slate-200/g, 'bg-fuchsia-500')}
                     ${certificationsBlock.replace(/text-slate-900/g, 'text-fuchsia-200').replace(/text-slate-600/g, 'text-fuchsia-300').replace(/text-slate-500/g, 'text-fuchsia-300').replace(/bg-slate-200/g, 'bg-fuchsia-500')}
+                </div>
+            `;
+            return;
+        }
+
+
+        if (template === 'harvard') {
+            container.innerHTML = `
+                <div class="space-y-6 font-serif">
+                    <header class="text-center border-b-2 border-slate-900 pb-4">
+                        <h1 class="text-3xl font-bold tracking-widest uppercase text-slate-900">${state.personal?.fullName || 'Your Name'}</h1>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-600 mt-2">${contactParts.join(' · ') || 'Location · Email · LinkedIn'}</p>
+                    </header>
+                    ${summaryBlock}
+                    ${experienceBlock}
+                    ${educationBlock}
+                    ${skillsBlock}
+                    ${projectsBlock}
+                    ${certificationsBlock}
+                </div>
+            `;
+            return;
+        }
+
+        if (template === 'chicago') {
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <header class="bg-slate-900 text-white -mx-14 -mt-14 px-14 py-8 mb-6">
+                        <p class="text-[9px] uppercase tracking-[0.36em] text-slate-400 mb-1">Chicago</p>
+                        <h1 class="text-4xl font-black tracking-tight">${state.personal?.fullName || 'Your Name'}</h1>
+                        <p class="mt-2 text-[10px] uppercase tracking-[0.18em] text-slate-400">${contactParts.join(' · ') || 'Location · Email · LinkedIn'}</p>
+                    </header>
+                    ${summaryBlock}
+                    ${experienceBlock}
+                    ${projectsBlock}
+                    ${educationBlock}
+                    ${skillsBlock}
+                    ${certificationsBlock}
+                </div>
+            `;
+            return;
+        }
+
+        if (template === 'stanford') {
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <header class="flex items-center gap-5 pb-5 border-b border-slate-200">
+                        <div class="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-2xl font-bold">
+                            ${(state.personal?.fullName || 'A').charAt(0)}
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">${state.personal?.fullName || 'Your Name'}</h1>
+                            <p class="text-[10px] uppercase tracking-[0.18em] text-slate-500 mt-1">${contactParts.join(' · ') || 'Location · Email · LinkedIn'}</p>
+                        </div>
+                    </header>
+                    ${summaryBlock}
+                    ${experienceBlock}
+                    ${projectsBlock}
+                    ${skillsBlock}
+                    ${educationBlock}
+                    ${certificationsBlock}
                 </div>
             `;
             return;

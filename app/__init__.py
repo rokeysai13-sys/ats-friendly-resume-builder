@@ -31,9 +31,10 @@ def create_app(env: str | None = None) -> Flask:
     try:
         ext.redis_client = redis_lib.from_url(app.config["REDIS_URL"], decode_responses=True)
         ext.redis_client.ping()
+        app.logger.info("Redis connected: rate limiting and caching enabled.")
     except Exception:
-        import warnings
-        warnings.warn("Redis unavailable — rate limiting and caching disabled.", RuntimeWarning)
+        app.logger.debug("Redis unavailable — rate limiting and caching disabled. "
+                         "Start Redis (redis-server) or set REDIS_URL to enable.")
         ext.redis_client = None
 
 

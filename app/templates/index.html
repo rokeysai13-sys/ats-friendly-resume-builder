@@ -11,7 +11,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <!-- Modern Typography -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;900&display=swap"
         rel="stylesheet" />
     <!-- Material Icons -->
     <link rel="stylesheet"
@@ -29,22 +29,26 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Manrope', 'sans-serif'], display: ['Fraunces', 'serif'] },
+                    fontFamily: { 
+                        sans: ['JetBrains Mono', 'monospace'], 
+                        display: ['Syne', 'sans-serif'] 
+                    },
                     colors: {
-                        surface: { DEFAULT: '#0b0f14', 50: '#11161d', 100: '#18212c' },
-                        panel: { DEFAULT: '#10161f', 50: '#151d28', 100: '#1b2431' },
-                        paper: '#f7f1e8',
-                        primary: { DEFAULT: '#76d8cf', dark: '#53c2b8' },
-                        accent: '#d8bb79',
-                        ink: '#11151b',
-                        muted: '#94a3b8',
-                        danger: '#f87171',
-                        success: '#4ade80',
+                        surface: { DEFAULT: '#0e0e0e', 50: '#151515', 100: '#1a1a1a' },
+                        panel: { DEFAULT: '#1a1a1a', 50: '#1f1f1f', 100: '#2a2a2a' },
+                        card: '#1f1f1f',
+                        active: '#2a2a2a',
+                        border: '#2d2d2d',
+                        primary: { DEFAULT: '#f97316', dark: '#ea580c' },
+                        accent: '#f97316',
+                        ink: '#e5e5e5',
+                        muted: '#9ca3af',
+                        danger: '#ef4444',
+                        success: '#22c55e',
                     },
                     boxShadow: {
-                        ambient: '0 0 54px -18px rgba(118,216,207,0.28)',
+                        ambient: '0 0 54px -18px rgba(249, 115, 22, 0.28)',
                         glass: '0 18px 50px rgba(0,0,0,0.38)',
-                        paper: '0 24px 70px rgba(8,12,18,0.28)',
                         soft: '0 1px 0 rgba(255,255,255,0.04) inset',
                     },
                     keyframes: {
@@ -88,8 +92,9 @@
             flex-direction: column;
             min-height: 100dvh;
             margin: 0;
-            font-family: 'Manrope', system-ui, sans-serif;
-            color: #f8fafc;
+            font-family: 'JetBrains Mono', system-ui, sans-serif;
+            color: #e5e5e5;
+            background: #0e0e0e;
         }
 
         #global-header {
@@ -101,8 +106,8 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(10, 14, 20, 0.84);
+            border-bottom: 1px solid #2d2d2d;
+            background: rgba(14, 14, 14, 0.84);
             backdrop-filter: blur(14px);
         }
 
@@ -113,16 +118,17 @@
             overflow: hidden;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 1rem;
+            background: #0e0e0e;
         }
 
         #sidebar-root {
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
-            width: clamp(248px, 21vw, 292px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: clamp(290px, 24vw, 360px);
+            border: 1px solid #2d2d2d;
             border-radius: 28px;
-            background: rgba(255, 255, 255, 0.05);
+            background: #1a1a1a;
             backdrop-filter: blur(16px);
             overflow-y: auto;
             position: sticky;
@@ -137,21 +143,20 @@
             margin: 0 1rem;
             padding: 2.2rem 1.2rem 1.4rem;
             border-radius: 1.25rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(15, 23, 42, 0.34));
-            backdrop-filter: blur(18px);
+            border: 1px solid #2d2d2d;
+            background: #1f1f1f;
         }
 
         .zen-metric-card {
-            border: 1px solid rgba(125, 211, 252, 0.2);
-            background: linear-gradient(150deg, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.22));
+            border: 1px solid rgba(255, 77, 0, 0.2);
+            background: linear-gradient(150deg, rgba(31, 31, 31, 0.5), rgba(31, 31, 31, 0.22));
             border-radius: 0.95rem;
             padding: 0.9rem;
         }
 
         .motion-mode-btn {
             border: 1px solid rgba(148, 163, 184, 0.28);
-            background: rgba(15, 23, 42, 0.34);
+            background: rgba(31, 31, 31, 0.34);
             color: #dbeafe;
             border-radius: 999px;
             padding: 0.3rem 0.8rem;
@@ -163,15 +168,15 @@
         }
 
         .motion-mode-btn.active {
-            background: linear-gradient(90deg, rgba(34, 211, 238, 0.3), rgba(125, 211, 252, 0.28));
-            border-color: rgba(34, 211, 238, 0.62);
+            background: linear-gradient(90deg, rgba(231, 82, 26, 0.3), rgba(255, 77, 0, 0.28));
+            border-color: rgba(231, 82, 26, 0.62);
             color: #ecfeff;
-            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25);
+            box-shadow: 0 0 0 1px rgba(231, 82, 26, 0.25);
         }
 
         .section-progress-card {
-            border: 1px solid rgba(125, 211, 252, 0.16);
-            background: rgba(15, 23, 42, 0.34);
+            border: 1px solid rgba(255, 77, 0, 0.16);
+            background: rgba(31, 31, 31, 0.34);
             border-radius: 0.8rem;
             padding: 0.62rem 0.72rem;
         }
@@ -200,7 +205,7 @@
             width: 100%;
             height: 100%;
             border-radius: 999px;
-            background: linear-gradient(90deg, #67e8f9, #22d3ee);
+            background: linear-gradient(90deg, #E7521A, #FF4D00);
             transform-origin: left center;
             transform: scaleX(0);
         }
@@ -225,8 +230,8 @@
             width: 4px;
             height: 4px;
             border-radius: 999px;
-            background: rgba(186, 230, 253, 0.6);
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+            background: rgba(231, 82, 26, 0.6);
+            box-shadow: 0 0 12px rgba(255, 77, 0, 0.35);
             will-change: transform, opacity;
         }
 
@@ -280,13 +285,38 @@
 
         #editor-form-panel,
         #ats-panel,
-        #live-preview-panel {
-            min-width: 0;
+        #editor-form-panel {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 50%;
+            border: 1px solid #2d2d2d;
             border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(14px);
+            background: #1f1f1f;
+            overflow: hidden;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.38);
+        }
+
+        #ats-panel {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border: 1px solid #2d2d2d;
+            border-radius: 28px;
+            background: #1a1a1a;
             overflow-y: auto;
+        }
+
+        .ats-metric-ring {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto;
+            background: radial-gradient(circle at 45% 45%, #2a2a2a, #1f1f1f);
+            border-radius: 50%;
+            border: 1px solid #2d2d2d;
         }
 
         #live-preview-panel {
@@ -295,7 +325,8 @@
             justify-content: center;
             min-height: 620px;
             padding: 2rem;
-            background: rgba(8, 12, 18, 0.92);
+            background: rgba(8, 12, 18, 0.95);
+            z-index: 10;
         }
 
         @media (max-width: 1280px) {
@@ -306,7 +337,7 @@
 
         body {
             background:
-                radial-gradient(circle at top, rgba(34, 211, 238, 0.05), transparent 30%),
+                radial-gradient(circle at top, rgba(231, 82, 26, 0.05), transparent 30%),
                 radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.03), transparent 28%),
                 #09090b;
             perspective: 1400px;
@@ -336,23 +367,23 @@
 
         /* Input Overrides */
         .input-dark {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(8, 12, 18, 0.8) 100%) !important;
-            border: 1.5px solid rgba(118, 216, 207, 0.12) !important;
+            background: linear-gradient(135deg, rgba(31, 31, 31, 0.6) 0%, rgba(8, 12, 18, 0.8) 100%) !important;
+            border: 1.5px solid rgba(231, 82, 26, 0.12) !important;
             color: #f1f5f9 !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
         }
 
         .input-dark:hover {
-            border-color: rgba(118, 216, 207, 0.24) !important;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(8, 12, 18, 0.95) 100%) !important;
+            border-color: rgba(231, 82, 26, 0.24) !important;
+            background: linear-gradient(135deg, rgba(31, 31, 31, 0.8) 0%, rgba(8, 12, 18, 0.95) 100%) !important;
         }
 
         .input-dark:focus {
-            border-color: #76d8cf !important;
-            box-shadow: 0 0 0 3px rgba(118, 216, 207, 0.2), inset 0 0 20px rgba(118, 216, 207, 0.08) !important;
+            border-color: #E7521A !important;
+            box-shadow: 0 0 0 3px rgba(231, 82, 26, 0.2), inset 0 0 20px rgba(231, 82, 26, 0.08) !important;
             outline: none !important;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(8, 12, 18, 1) 100%) !important;
+            background: linear-gradient(135deg, rgba(31, 31, 31, 0.95) 0%, rgba(8, 12, 18, 1) 100%) !important;
         }
 
         .input-dark::placeholder,
@@ -363,6 +394,90 @@
             opacity: 1 !important;
         }
 
+        /* Force dark dropdown options - fixes white background on native <select> */
+        select option {
+            background: #1a1a1a !important;
+            color: #f1f5f9 !important;
+        }
+        select optgroup {
+            background: #141414 !important;
+            color: #9ca3af !important;
+        }
+
+        /* Custom Engine Mode Dropdown */
+        .custom-select-wrapper { position: relative; }
+        .custom-select-trigger {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            user-select: none;
+        }
+        .custom-select-dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0; right: 0;
+            z-index: 200;
+            background: #1a1a1a;
+            border: 1.5px solid rgba(231, 82, 26, 0.25);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+            display: none;
+        }
+        .custom-select-dropdown.open { display: block; }
+        .custom-select-option {
+            padding: 10px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .custom-select-option:last-child { border-bottom: none; }
+        .custom-select-option:hover { background: rgba(var(--theme-orange-rgb), 0.12); color: var(--theme-orange); }
+        .custom-select-option.selected { background: rgba(var(--theme-orange-rgb), 0.18); color: var(--theme-orange); }
+
+        /* Template Picker Modal Cards */
+        .tpl-card {
+            cursor: pointer;
+            border-radius: 14px;
+            border: 2px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+            background: #1a1a1a;
+        }
+        .tpl-card:hover {
+            border-color: rgba(var(--theme-orange-rgb), 0.5);
+            box-shadow: 0 0 0 3px rgba(var(--theme-orange-rgb), 0.12);
+            transform: translateY(-2px);
+        }
+        .tpl-card.active {
+            border-color: var(--theme-orange);
+            box-shadow: 0 0 0 4px rgba(var(--theme-orange-rgb), 0.2);
+        }
+        .tpl-thumb {
+            width: 100%;
+            aspect-ratio: 7/9;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px 9px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .tpl-thumb-name {
+            font-size: 9px;
+            font-weight: 700;
+            color: #fff;
+            padding: 3px 8px;
+            background: rgba(var(--theme-orange-rgb), 0.18);
+            border-radius: 20px;
+            text-align: center;
+            letter-spacing: 0.06em;
+        }
+
         /* Glass Cards */
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
@@ -371,7 +486,7 @@
             transform-style: preserve-3d;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.24),
-                inset 0 -1px 0 rgba(118, 216, 207, 0.08),
+                inset 0 -1px 0 rgba(var(--theme-orange-rgb), 0.08),
                 0 18px 50px rgba(0, 0, 0, 0.34);
             position: relative;
             overflow: hidden;
@@ -397,7 +512,7 @@
             transform-style: preserve-3d;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.18),
-                inset 0 -1px 0 rgba(118, 216, 207, 0.08),
+                inset 0 -1px 0 rgba(var(--theme-orange-rgb), 0.08),
                 0 10px 28px rgba(0, 0, 0, 0.28);
         }
 
@@ -437,9 +552,9 @@
             pointer-events: none;
             background: linear-gradient(
                 115deg,
-                rgba(34, 211, 238, 0) 20%,
-                rgba(34, 211, 238, 0.14) 48%,
-                rgba(34, 211, 238, 0) 72%
+                rgba(var(--theme-orange-rgb), 0) 20%,
+                rgba(var(--theme-orange-rgb), 0.14) 48%,
+                rgba(var(--theme-orange-rgb), 0) 72%
             );
             transform: translateX(-45%) rotate(-8deg);
             animation: panel-sheen 8.2s ease-in-out infinite;
@@ -459,7 +574,7 @@
 
         .paper-card {
             background: #f7f1e8;
-            color: #11151b;
+            color: #0e0e0e;
             border: 1px solid rgba(17, 21, 27, 0.08);
             box-shadow: 0 24px 70px rgba(8, 12, 18, 0.28);
         }
@@ -475,22 +590,22 @@
         .marker-verified { background: rgba(16, 185, 129, 0.25); }
         .marker-ai { background: rgba(244, 63, 94, 0.25); }
 
-        .ai-magic-btn {
+        .optimize-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 1.7rem;
             height: 1.7rem;
             border-radius: 999px;
-            border: 1px solid rgba(118, 216, 207, 0.35);
-            background: rgba(118, 216, 207, 0.12);
-            color: #9aece4;
+            border: 1px solid rgba(var(--theme-orange-rgb), 0.35);
+            background: rgba(var(--theme-orange-rgb), 0.12);
+            color: var(--theme-orange);
             transition: transform 0.18s ease, background-color 0.18s ease;
         }
 
-        .ai-magic-btn:hover {
+        .optimize-btn:hover {
             transform: translateY(-1px);
-            background: rgba(118, 216, 207, 0.2);
+            background: rgba(var(--theme-orange-rgb), 0.2);
         }
 
         .ai-thinking-overlay {
@@ -500,8 +615,7 @@
             align-items: center;
             justify-content: center;
             z-index: 120;
-            background: rgba(2, 6, 12, 0.28);
-            backdrop-filter: blur(7px);
+            background: rgba(2, 6, 12, 0.55);
         }
 
         .ai-thinking-overlay.is-active {
@@ -515,7 +629,7 @@
             padding: 0.75rem 1rem;
             border-radius: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(15, 23, 42, 0.62);
+            background: rgba(31, 31, 31, 0.62);
             box-shadow: 0 10px 30px rgba(2, 6, 12, 0.35);
             color: #dbeafe;
             font-size: 0.8rem;
@@ -529,7 +643,7 @@
             height: 1rem;
             border-radius: 999px;
             border: 2px solid rgba(148, 163, 184, 0.35);
-            border-top-color: #67e8f9;
+            border-top-color: var(--theme-orange);
             animation: ai-spin 0.8s linear infinite;
         }
 
@@ -542,7 +656,7 @@
         }
 
         .tech-tag-glow:hover {
-            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.5), 0 0 18px rgba(34, 211, 238, 0.35);
+            box-shadow: 0 0 0 1px rgba(var(--theme-orange-rgb), 0.5), 0 0 18px rgba(var(--theme-orange-rgb), 0.35);
             transform: translateY(-1px);
         }
 
@@ -583,19 +697,17 @@
         #ats-panel {
             grid-column: 1 / 6;
             grid-row: 1;
-            margin-right: -6rem;
-            z-index: 12;
+            z-index: 20;
             position: relative;
         }
 
         #live-preview-panel {
-            grid-column: 5 / 13;
+            grid-column: 6 / 13;
             grid-row: 1;
-            z-index: 9;
-            align-items: flex-start;
-            justify-content: flex-start;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
             margin-top: -4.5rem;
-            margin-left: 5cm;
             min-height: 760px;
         }
 
@@ -676,18 +788,98 @@
                 max-height: 280px;
             }
         }
-    </style>
+    
+/* THEME_OVERRIDE_NO_GLASS */
+:root {
+  --theme-bg-0: #0b0b0b;
+  --theme-bg-1: #141414;
+  --theme-surface: #1a1a1a;
+  --theme-surface-2: #202020;
+  --theme-border: #3b3b3b;
+  --theme-text: #ffffff;
+  --theme-muted: #d1d5db;
+  --theme-orange: #ff5a1f;
+  --theme-orange-rgb: 255, 90, 31;   /* companion for rgba() usage */
+  --theme-red: #e11d48;
+}
+
+body {
+  background: var(--theme-bg-0) !important;
+  color: var(--theme-text) !important;
+}
+
+.glass,
+.glass-card,
+.glass-panel,
+.obsidian-panel-reflective,
+.tile,
+.feature-card,
+.flow-step,
+.faq-card,
+.metric-box,
+.persona-card,
+.ai-card,
+.cta-box,
+#sidebar-root,
+#editor-form-panel,
+#ats-panel,
+#live-preview-panel,
+header.sticky {
+  background: var(--theme-surface) !important;
+  border: 1px solid var(--theme-border) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.38) !important;
+}
+
+.gradient-text,
+.text-primary,
+.material-symbols-outlined.text-primary {
+  color: var(--theme-orange) !important;
+  -webkit-text-fill-color: var(--theme-orange) !important;
+  background: none !important;
+}
+
+.btn-primary,
+.bg-primary,
+button#btn-do-login,
+button#btn-run-magic {
+  background: var(--theme-orange) !important;
+  color: #ffffff !important;
+  border-color: #b13f18 !important;
+}
+
+.btn-secondary,
+.border-primary\/20,
+.border-primary\/25,
+.border-primary\/35 {
+  border-color: var(--theme-orange) !important;
+}
+
+.bg-danger\/15,
+.border-danger\/25,
+.text-danger,
+.marker-ai,
+#badge-api-engine {
+  color: #ffffff !important;
+  background: var(--theme-red) !important;
+  border-color: #9f1239 !important;
+}
+
+.text-gray-400,
+.text-muted,
+.text-slate-400,
+.text-slate-300 {
+  color: var(--theme-muted) !important;
+}
+</style>
 </head>
 
 <body class="bg-neutral-950 font-sans text-white antialiased min-h-dvh flex flex-col cinematic-page">
-    <div id="threejs-bg" aria-hidden="true"></div>
-    <div id="parallax-dot-field" class="pointer-events-none fixed inset-0 opacity-18 [background-image:radial-gradient(rgba(255,255,255,0.12)_0.6px,transparent_0.6px)] [background-size:18px_18px]">
-        <div id="parallax-dots-3d" aria-hidden="true"></div>
-    </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <!-- GLOBAL HEADER                                                  -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <header id="global-header" class="sticky top-0 z-50 h-16 bg-neutral-950/84 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-5 md:px-6 shrink-0">
         <!-- Left: Logo -->
         <div class="flex items-center gap-3">
@@ -696,37 +888,37 @@
             </div>
             <div>
                 <span class="block font-bold text-base tracking-tight text-white">Resume Atelier</span>
-                <span class="block text-[10px] uppercase tracking-[0.24em] text-slate-400">Studio workspace</span>
+                <span class="block text-[10px] uppercase tracking-[0.24em] text-gray-400">Studio workspace</span>
             </div>
         </div>
         <!-- Center: Version -->
-        <div class="hidden md:flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-4 py-2 text-xs text-slate-300">
+        <div class="hidden md:flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-4 py-2 text-xs text-gray-400">
             <span class="material-symbols-outlined text-sm">history</span>
-            <span id="save-status">Studio Session • All changes saved</span>
+            <span id="save-status">Studio Session â€¢ All changes saved</span>
         </div>
         <!-- Right: Export -->
         <div class="flex items-center gap-3">
-            <a href="{{ url_for('dashboard') }}" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-bold text-slate-200 transition-all duration-200 hover:bg-white/10">
+            <a href="{{ url_for('dashboard') }}" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-bold text-gray-400 transition-all duration-200 hover:bg-white/10">
                 Home
             </a>
-            <a href="{{ url_for('logout_page') }}" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-bold text-slate-200 transition-all duration-200 hover:bg-white/10">
+            <a href="{{ url_for('logout_page') }}" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-bold text-gray-400 transition-all duration-200 hover:bg-white/10">
                 Logout
             </a>
-            <button id="btn-export-pdf" class="bg-primary hover:bg-primary-dark text-slate-950 text-xs font-bold rounded-xl px-4 py-2.5 flex items-center gap-1.5 transition-all duration-200 hover:shadow-ambient active:scale-95">
+            <button id="btn-export-pdf" class="bg-primary hover:bg-primary-dark text-gray-400 text-xs font-bold rounded-xl px-4 py-2.5 flex items-center gap-1.5 transition-all duration-200 hover:shadow-ambient active:scale-95">
                 <span class="material-symbols-outlined text-sm">download</span>
                 Export PDF
             </button>
         </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <!-- MAIN LAYOUT (Sidebar + Workspace + Live Preview)               -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div class="workspace-shell flex flex-1 gap-4 overflow-hidden border-t border-white/5 p-4">
 
-        <!-- ─────────────────────────────────────────────────────────── -->
+        <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
         <!-- LEFT SIDEBAR                                                -->
-        <!-- ─────────────────────────────────────────────────────────── -->
+        <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
         <div id="sidebar-root" class="workspace-sidebar sticky top-20 shrink-0 bg-white/5 backdrop-blur-md border border-white/10 rounded-[28px] flex flex-col overflow-y-auto z-10 obsidian-panel-reflective">
 
             <!-- Top Tabs: Editor / ATS -->
@@ -734,18 +926,18 @@
                 <button data-view="editor" class="view-tab flex-1 justify-start text-left text-xs font-bold py-2.5 px-4 rounded-xl transition-all bg-neutral-800 text-white">
                     Studio
                 </button>
-                <button data-view="ats" class="view-tab flex-1 justify-start text-left text-xs font-bold py-2.5 px-4 rounded-xl transition-all text-slate-300 hover:bg-white/5">
+                <button data-view="ats" class="view-tab flex-1 justify-start text-left text-xs font-bold py-2.5 px-4 rounded-xl transition-all text-gray-400 hover:bg-white/5">
                     ATS Lab
                 </button>
             </div>
 
             <!-- STATE 1: Content Editor Sidebar -->
             <aside id="editor-sidebar" class="flex-1 py-4 px-2 space-y-1">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.24em] px-4 mb-3">Resume Blueprint</p>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.24em] px-4 mb-3">Resume Blueprint</p>
 
                 <div class="px-3 mb-3">
-                    <div class="rounded-xl border border-cyan-300/20 bg-cyan-300/8 px-3 py-3">
-                        <p class="text-[10px] font-bold text-cyan-200 uppercase tracking-[0.2em] mb-2">Resume Health</p>
+                    <div class="rounded-xl border border-primary/20 bg-primary/8 px-3 py-3">
+                        <p class="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-2">Resume Health</p>
                         <div class="grid grid-cols-2 gap-2 mb-2">
                             <div class="section-progress-card">
                                 <span>Completeness</span><br /><strong><span id="counter-resume-completeness" data-counter-target="0" data-counter-suffix="%">0</span></strong>
@@ -768,104 +960,119 @@
                 <button data-section="personal" class="tab-active w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-white/5 text-left">
                     <span class="material-symbols-outlined text-lg">person</span> Personal Info
                 </button>
-                <button data-section="summary" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                <button data-section="summary" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-400 transition-all hover:bg-white/5 text-left">
                     <span class="material-symbols-outlined text-lg">subject</span> Summary
                 </button>
-                <button data-section="education" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                <button data-section="education" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-400 transition-all hover:bg-white/5 text-left">
                     <span class="material-symbols-outlined text-lg">school</span> Education
                 </button>
-                <button data-section="experience" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                <button data-section="experience" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-400 transition-all hover:bg-white/5 text-left">
                     <span class="material-symbols-outlined text-lg">work</span> Experience
                 </button>
-                <button data-section="projects" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                <button data-section="projects" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-400 transition-all hover:bg-white/5 text-left">
                     <span class="material-symbols-outlined text-lg">deployed_code</span> Projects
                 </button>
-                <button data-section="skills" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                <button data-section="skills" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-400 transition-all hover:bg-white/5 text-left">
                     <span class="material-symbols-outlined text-lg">code</span> Skills
                 </button>
-                <button data-section="certifications" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 text-left">
+                <button data-section="certifications" class="w-full flex items-center justify-start gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-400 transition-all hover:bg-white/5 text-left">
                     <span class="material-symbols-outlined text-lg">verified</span> Certifications
                 </button>
 
                 <div class="mt-4 px-3">
                     <div class="rounded-xl border border-white/10 bg-white/5 px-3 py-3">
-                        <label for="resume-template-select" class="block text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 mb-2">Template</label>
-                        <select id="resume-template-select" class="w-full rounded-lg border border-white/15 bg-black/30 px-2.5 py-2 text-[12px] text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-300/40">
+                        <p class="block text-[10px] font-bold uppercase tracking-[0.22em] text-gray-400 mb-2">Template</p>
+                        <!-- Hidden select kept for JS binding -->
+                        <select id="resume-template-select" class="sr-only" aria-hidden="true" tabindex="-1">
                             <option value="modern">Modern</option>
                             <option value="classic">Classic</option>
-                            <option value="compact">Compact</option>
                             <option value="minimal">Minimal</option>
                             <option value="executive">Executive</option>
-                            <option value="noir">Noir</option>
-                            <option value="aurora">Aurora</option>
-                            <option value="timeline">Timeline</option>
+                            <option value="compact">Compact</option>
                             <option value="split">Split Grid</option>
-                            <option value="mono">Monochrome</option>
-                            <option value="skyline">Skyline</option>
-                            <option value="matrix">Matrix</option>
-                            <option value="paperclip">Paperclip</option>
+                            <option value="noir">Noir</option>
+                            <option value="timeline">Timeline</option>
                             <option value="zen">Zen</option>
-                            <option value="neon">Neon</option>
+                            <option value="harvard">Harvard</option>
+                            <option value="chicago">Chicago</option>
+                            <option value="stanford">Stanford</option>
                         </select>
+                        <!-- Visual Picker Button -->
+                        <button id="btn-open-template-picker"
+                            class="w-full flex items-center justify-between gap-2 rounded-xl border border-white/15 bg-black/30 px-3 py-2.5 text-[12px] text-gray-200 font-semibold hover:border-primary/40 hover:bg-primary/5 transition-all"
+                            type="button" aria-haspopup="dialog">
+                            <span class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">auto_awesome</span>
+                                <span id="tpl-picker-label">Modern</span>
+                            </span>
+                            <span class="material-symbols-outlined text-sm text-gray-400">grid_view</span>
+                        </button>
                     </div>
                 </div>
             </aside>
 
             <!-- STATE 2: ATS Match Sidebar -->
-            <div id="ats-sidebar" class="hidden flex-1 py-4 px-3 space-y-4 overflow-y-auto">
-                
-                <!-- Target Role -->
-                <div class="glass-card rounded-2xl p-6">
-                    <div class="flex justify-between items-center mb-3">
-                        <p class="text-xs font-bold text-white">Target Role</p>
-                        <button id="edit-target-role" class="text-primary hover:opacity-70 transition-colors" title="Edit Job Description" aria-label="Edit target role">
-                            <span class="material-symbols-outlined text-sm">edit</span>
+            <div id="ats-sidebar" class="hidden flex-1 py-4 px-3 space-y-3 overflow-y-auto">
+
+                <!-- ── Target Role Card ── -->
+                <div class="ats-sidebar-card glass-card rounded-2xl p-5">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="text-[10px] font-black uppercase tracking-[0.22em] text-gray-400">Target Role</p>
+                        <button id="edit-target-role" class="ats-edit-icon text-primary/70 hover:text-primary transition-colors" title="Edit Job Description" aria-label="Edit target role">
+                            <span class="material-symbols-outlined text-base">edit</span>
                         </button>
                     </div>
-                    <p class="text-[11px] text-slate-300 line-clamp-3">Ready to analyze your resume. Click the edit button to add a job description.</p>
-
-                    <div class="mt-3 rounded-lg border border-white/10 bg-black/20 p-2.5">
-                        <label for="ats-engine-mode-quick" class="block text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 mb-1.5">Engine Mode</label>
-                        <select id="ats-engine-mode-quick" class="input-dark w-full rounded-lg px-2.5 py-2 text-xs">
-                            <option value="auto" selected>Auto (Local + API)</option>
-                            <option value="local">Local ML Model Only</option>
-                            <option value="api">API Model Only</option>
-                        </select>
-                    </div>
-
-                    <button id="edit-target-role-inline" class="mt-3 w-full rounded-lg border border-cyan-300/25 bg-cyan-300/10 px-3 py-2 text-[11px] font-bold text-cyan-200 transition-all hover:bg-cyan-300/20">
-                        Add / Edit Job Description
-                    </button>
+                    <p id="ats-target-role-preview" class="text-[12px] text-gray-300 font-semibold leading-snug line-clamp-2">No job description added yet.</p>
+                    <p class="text-[10px] text-gray-500 mt-1.5">Click edit to paste a JD and start the analyzer.</p>
                 </div>
 
-                <!-- ATS Score Ring -->
-                <div class="glass-card rounded-2xl p-6 flex flex-col items-start depth-card">
-                    <div class="relative w-28 h-28 mb-4 self-start" id="ats-score-3d-wrap">
-                        <div id="ats-score-3d" class="absolute inset-0 rounded-full"></div>
-                        <svg class="hidden w-full h-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
-                            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" />
-                            <circle id="ats-score-circle" cx="50" cy="50" r="42" fill="none" stroke="#22d3ee" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" class="transition-all duration-1000 ease-out" />
+                <!-- â”€â”€ Engine Mode Card â”€â”€ -->
+                <div class="ats-sidebar-card glass-card rounded-2xl p-5">
+                    <label for="ats-engine-mode-quick" class="block text-[10px] font-black uppercase tracking-[0.22em] text-gray-400 mb-2">Engine Mode</label>
+                    <select id="ats-engine-mode-quick" class="input-dark w-full rounded-xl px-3 py-2.5 text-xs font-semibold">
+                        <option value="auto" selected>Auto (Local + API)</option>
+                        <option value="local">Local ML Model Only</option>
+                        <option value="api">API Model Only</option>
+                    </select>
+                    <p class="text-[10px] text-gray-500 mt-2">Auto blends local ML speed with Gemini contextual depth.</p>
+                </div>
+
+                <!-- â”€â”€ Add / Edit JD Button (Primary CTA) â”€â”€ -->
+                <button id="edit-target-role-inline" class="ats-sidebar-cta w-full rounded-2xl border border-primary/30 bg-primary/12 px-4 py-3.5 text-[12px] font-black uppercase tracking-[0.12em] text-primary transition-all hover:bg-primary/22 active:scale-[0.98] flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-base">post_add</span>
+                    Add / Edit Job Description
+                </button>
+
+                <!-- â”€â”€ ATS Score Gauge â”€â”€ -->
+                <div class="ats-sidebar-card glass-card rounded-2xl p-5 flex flex-col items-center depth-card">
+                    <p class="text-[10px] font-black uppercase tracking-[0.22em] text-gray-400 mb-4 self-start">ATS Match Score</p>
+                    <div class="relative w-[140px] h-[140px] mb-3">
+                        <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
+                            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+                            <circle id="ats-score-circle" cx="50" cy="50" r="42" fill="none" stroke="var(--theme-orange)" stroke-width="7" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" class="transition-all duration-1000 ease-out" />
+
                         </svg>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span id="ats-score-text" class="text-3xl font-black tracking-tight text-cyan-300">0</span>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="ats-score-text" class="text-4xl font-black tracking-tight text-primary leading-none">0</span>
+                            <span class="text-[9px] uppercase tracking-[0.18em] text-gray-500 mt-1">Score</span>
                         </div>
                     </div>
-                    <p class="w-full text-left text-[11px] text-slate-300 mt-1">AI calculated match percentage based on required skills.</p>
+                    <p class="text-center text-[10px] text-gray-500 leading-relaxed">Composite match confidence from dual-engine analysis.</p>
                 </div>
 
-                <!-- Keyword Analysis -->
-                <div class="glass-card rounded-2xl p-6 space-y-3">
-                    <p class="text-xs font-bold text-white">Keyword Analysis</p>
+                <!-- â”€â”€ Keyword Analysis â”€â”€ -->
+                <div class="ats-sidebar-card glass-card rounded-2xl p-5 space-y-3">
+                    <p class="text-[10px] font-black uppercase tracking-[0.22em] text-gray-400">Keyword Analysis</p>
                     <div>
-                        <p class="text-[10px] text-slate-400 mb-2">Found in Resume</p>
+                        <p class="text-[10px] text-gray-500 mb-1.5 flex items-center gap-1"><span class="material-symbols-outlined text-success text-xs">check_circle</span> Found in Resume</p>
                         <div id="found-keywords" class="flex flex-wrap gap-1.5 border-b border-white/5 pb-3">
-                            <span class="text-[10px] text-slate-400 italic">Enter a JD to see matches.</span>
+                            <span class="text-[10px] text-gray-500 italic">Enter a JD to see matches.</span>
                         </div>
                     </div>
                     <div class="pt-1">
-                        <p class="text-[10px] text-slate-400 mb-2">Missing Keywords</p>
+                        <p class="text-[10px] text-gray-500 mb-1.5 flex items-center gap-1"><span class="material-symbols-outlined text-danger text-xs">error</span> Missing Keywords</p>
                         <div id="missing-keywords" class="flex flex-wrap gap-1.5">
-                            <span class="text-[10px] text-slate-400 italic">No analysis run yet.</span>
+                            <span class="text-[10px] text-gray-500 italic">No analysis run yet.</span>
                         </div>
                     </div>
                 </div>
@@ -873,12 +1080,12 @@
             </div>
         </div>
 
-        <!-- ─────────────────────────────────────────────────────────── -->
+        <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
         <!-- MAIN WORKSPACE                                              -->
-        <!-- ─────────────────────────────────────────────────────────── -->
+        <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
         <main class="workspace-main flex-1 overflow-hidden">
 
-            <!-- ═══  EDITOR FORM PANEL  ═══ -->
+            <!-- â•â•â•  EDITOR FORM PANEL  â•â•â• -->
             <section id="editor-form-panel" class="workspace-panel reveal-left bg-white/5 backdrop-blur-md border border-white/10 rounded-[28px] overflow-y-auto p-6 relative z-10 obsidian-panel-reflective">
                 
                 <!-- Section: Personal Info -->
@@ -888,31 +1095,31 @@
                             <span class="material-symbols-outlined text-primary text-xl">person</span>
                             <h2 class="text-xl font-bold text-white tracking-tight">Personal Information</h2>
                         </div>
-                        <button onclick="document.getElementById('magic-modal').classList.remove('hidden')" class="flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs text-primary font-bold hover:bg-primary/20 transition">
+                        <button onclick="showModal('magic-modal')" class="flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs text-primary font-bold hover:bg-primary/20 transition-all shadow-glow active:scale-95 cursor-pointer">
                             <span class="material-symbols-outlined text-sm">auto_awesome</span>
-                            Magic Auto-Fill
+                            Quick Import
                         </button>
                     </div>
                     <div class="glass-card rounded-2xl p-6 space-y-5">
                         <div class="grid grid-cols-2 gap-5">
                             <div class="col-span-2">
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Full Name</label>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Full Name</label>
                                 <input data-bind="personal.fullName" type="text" placeholder="Alice Johnson" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
                             </div>
                             <div class="col-span-1">
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Email</label>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Email</label>
                                 <input data-bind="personal.email" type="email" placeholder="alice@example.com" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
                             </div>
                             <div class="col-span-1">
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Phone</label>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Phone</label>
                                 <input data-bind="personal.phone" type="tel" placeholder="(555) 123-4567" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
                             </div>
                             <div class="col-span-1">
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Location</label>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Location</label>
                                 <input data-bind="personal.location" type="text" placeholder="San Francisco, CA" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
                             </div>
                             <div class="col-span-1">
-                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">LinkedIn</label>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">LinkedIn</label>
                                 <input data-bind="personal.linkedin" type="url" placeholder="linkedin.com/in/alice" class="input-dark w-full rounded-lg px-4 py-3.5 text-sm" />
                             </div>
                         </div>
@@ -945,20 +1152,20 @@
                     <div class="glass-card rounded-2xl p-5 space-y-4">
                         <div class="grid grid-cols-2 gap-4">
                             <div class="col-span-2">
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">School</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">School</label>
                                 <input data-bind="education.0.school" type="text" placeholder="University of California" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div class="col-span-2 md:col-span-1">
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Degree</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Degree</label>
                                 <input data-bind="education.0.degree" type="text" placeholder="B.S. Computer Science" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div class="flex gap-3">
                                 <div class="flex-1">
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Start</label>
+                                    <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Start</label>
                                     <input data-bind="education.0.startYear" type="text" placeholder="2016" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                                 </div>
                                 <div class="flex-1">
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">End</label>
+                                    <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">End</label>
                                     <input data-bind="education.0.endYear" type="text" placeholder="2020" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                                 </div>
                             </div>
@@ -975,21 +1182,21 @@
                     <div class="glass-card rounded-2xl p-5 space-y-4">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Company</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Company</label>
                                 <input data-bind="experience.0.companyName" type="text" placeholder="TechNova" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Role</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Role</label>
                                 <input data-bind="experience.0.role" type="text" placeholder="Software Engineer" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div class="col-span-2">
                                 <div class="mb-1.5 flex items-center justify-between gap-3">
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Description (Bullet points)</label>
-                                    <button type="button" class="ai-magic-btn ai-optimize-btn" data-target="experience.0.description" title="AI Magic Rewrite" aria-label="AI Magic Rewrite">
+                                    <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">Description (Bullet points)</label>
+                                    <button type="button" class="optimize-btn ai-optimize-btn" data-target="experience.0.description" title="Optimize" aria-label="Optimize">
                                         <span class="material-symbols-outlined text-sm">auto_awesome</span>
                                     </button>
                                 </div>
-                                <textarea data-bind="experience.0.description" rows="4" placeholder="• Led development of API..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
+                                <textarea id="experience.0.description" data-bind="experience.0.description" rows="4" placeholder="â€¢ Led development of API..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
                             </div>
                         </div>
                     </div>
@@ -1001,36 +1208,36 @@
                         <span class="material-symbols-outlined text-primary">deployed_code</span>
                         <h2 class="text-lg font-bold text-white">Project Gallery</h2>
                     </div>
-                    <div class="glass-card rounded-2xl p-5 space-y-4 border border-cyan-300/20">
-                        <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400">Obsidian Card</p>
+                    <div class="glass-card rounded-2xl p-5 space-y-4 border border-primary/20">
+                        <p class="text-[10px] uppercase tracking-[0.24em] text-gray-400">Obsidian Card</p>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="col-span-2">
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Project Title</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Project Title</label>
                                 <input data-bind="projects.0.title" type="text" placeholder="Realtime Resume Analyzer" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div class="col-span-2">
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Tech Stack (comma separated)</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Tech Stack (comma separated)</label>
                                 <input data-bind="projects.0.techStack" type="text" placeholder="Flask, PostgreSQL, GSAP, Tailwind" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div class="col-span-2">
                                 <div class="mb-1.5 flex items-center justify-between gap-3">
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Description</label>
-                                    <button type="button" class="ai-magic-btn ai-optimize-btn" data-target="projects.0.description" title="AI Magic Rewrite" aria-label="AI Magic Rewrite">
+                                    <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">Description</label>
+                                    <button type="button" class="optimize-btn ai-optimize-btn" data-target="projects.0.description" title="Optimize" aria-label="Optimize">
                                         <span class="material-symbols-outlined text-sm">auto_awesome</span>
                                     </button>
                                 </div>
-                                <textarea data-bind="projects.0.description" rows="4" placeholder="• Built...&#10;• Improved..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
+                                <textarea id="projects.0.description" data-bind="projects.0.description" rows="4" placeholder="â€¢ Built...&#10;â€¢ Improved..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
                             </div>
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">GitHub Link</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">GitHub Link</label>
                                 <input data-bind="projects.0.githubLink" type="url" placeholder="https://github.com/user/repo" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Demo Link</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Demo Link</label>
                                 <input data-bind="projects.0.demoLink" type="url" placeholder="https://demo.example.com" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Created Date</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Created Date</label>
                                 <input data-bind="projects.0.createdDate" type="month" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                         </div>
@@ -1045,7 +1252,7 @@
                     </div>
                     <div class="glass-card rounded-2xl p-5 space-y-4">
                         <textarea data-bind="skillsString" rows="4" placeholder="Python, Django, AWS, React..." class="input-dark w-full rounded-lg px-4 py-3 text-sm resize-none"></textarea>
-                        <p class="text-[10px] text-slate-400 mt-1.5">Separate with commas.</p>
+                        <p class="text-[10px] text-gray-400 mt-1.5">Separate with commas.</p>
                     </div>
                 </div>
 
@@ -1056,10 +1263,10 @@
                         <h2 class="text-lg font-bold text-white">Certifications</h2>
                     </div>
 
-                    <div class="glass-card glass-id-card depth-card rounded-2xl p-5 space-y-4 border border-cyan-300/20 transition-transform duration-300">
+                    <div class="glass-card glass-id-card depth-card rounded-2xl p-5 space-y-4 border border-primary/20 transition-transform duration-300">
                         <div class="flex items-center justify-between gap-3">
-                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400">Glass ID Card</p>
-                            <span data-verified-badge="0" class="hidden inline-flex items-center gap-1 rounded-full border border-emerald-300/30 bg-emerald-300/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-200">
+                            <p class="text-[10px] uppercase tracking-[0.24em] text-gray-400">Resume Identity</p>
+                            <span data-verified-badge="0" class="hidden inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
                                 <span class="material-symbols-outlined text-xs">verified</span>
                                 Verified
                             </span>
@@ -1067,27 +1274,27 @@
 
                         <div class="grid grid-cols-2 gap-4">
                             <div class="col-span-2">
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Certification Name</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Certification Name</label>
                                 <input data-bind="certifications.0.name" type="text" placeholder="AWS Certified Developer - Associate" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
 
                             <div class="col-span-2 md:col-span-1">
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Issuing Organization</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Issuing Organization</label>
                                 <input data-bind="certifications.0.issuingOrganization" type="text" placeholder="Amazon Web Services" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
 
                             <div class="col-span-2 md:col-span-1">
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Credential URL</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Credential URL</label>
                                 <input data-bind="certifications.0.credentialUrl" type="url" placeholder="https://www.credly.com/..." class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
 
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Issue Date</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Issue Date</label>
                                 <input data-bind="certifications.0.issueDate" type="date" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
 
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1.5">Expiration Date</label>
+                                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Expiration Date</label>
                                 <input data-bind="certifications.0.expirationDate" type="date" class="input-dark w-full rounded-lg px-4 py-3 text-sm" />
                             </div>
                         </div>
@@ -1096,48 +1303,63 @@
 
             </section>
 
-            <!-- ═══  ATS ANALYSIS PANEL (hidden by default)  ═══ -->
-            <section id="ats-panel" class="workspace-panel hidden bg-white/5 backdrop-blur-md border border-white/10 rounded-[28px] overflow-y-auto p-6 relative z-10 obsidian-panel-reflective">
+            <!-- â•â•â•  ATS ANALYSIS PANEL (hidden by default)  â•â•â• -->
+            <section id="ats-panel" class="workspace-panel hidden bg-[#1a1a1a] border border-[#2d2d2d] rounded-[28px] overflow-y-auto p-6 relative z-10">
                 <!-- Welcome State -->
                 <div id="ats-welcome-state" class="max-w-4xl mx-auto py-10 animate-fade-in">
-                    <div class="mb-8 rounded-3xl border border-white/8 bg-white/4 p-6 md:p-8 shadow-glass">
-                        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                    <!-- Hero Banner -->
+                    <div class="mb-8 rounded-3xl border border-[#2d2d2d] bg-[#1f1f1f] p-8 md:p-10">
+                        <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
                             <div class="max-w-xl">
-                                <p class="text-[10px] uppercase tracking-[0.28em] text-primary mb-3">ATS Analysis Workspace</p>
-                                <h2 class="font-display text-3xl md:text-4xl text-white leading-tight">Paste a target role, then get a sharper match signal.</h2>
-                                <p class="mt-3 text-sm text-slate-300">The center panel now works like a guided analysis desk instead of a blank placeholder. Add the JD, run the scan, and review the top mismatch signals in one place.</p>
+                                <span class="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/8 px-3 py-1 text-[10px] font-black uppercase tracking-[0.24em] text-primary mb-4">
+                                    <span class="material-symbols-outlined text-xs">labs</span>
+                                    ATS Analysis Workspace
+                                </span>
+                                <h2 class="font-display text-3xl md:text-4xl text-white leading-[1.15] tracking-tight">Paste a target role, then get a <span class="text-primary">sharper match signal.</span></h2>
+                                <p class="mt-4 text-sm text-gray-400 leading-relaxed max-w-lg">This workspace compares your resume against the target JD using dual-engine analysis. Add the JD, run the scan, and review the top mismatch signals in one place.</p>
                             </div>
-                            <button id="btn-edit-target-role-hero" class="hidden md:inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-semibold text-white hover:bg-white/10 transition">
+                            <button id="btn-edit-target-role-hero" class="hidden md:inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/10 px-5 py-2.5 text-xs font-bold text-primary hover:bg-primary/18 transition-all">
                                 <span class="material-symbols-outlined text-sm">edit</span>
                                 Edit target role
                             </button>
                         </div>
                     </div>
 
+                    <!-- Step Cards -->
                     <div class="grid gap-4 md:grid-cols-3">
-                        <div class="glass-card rounded-2xl p-5">
-                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Step 01</p>
-                            <h3 class="text-base font-bold text-white mb-2">Add the job description</h3>
-                            <p class="text-sm text-slate-300">Paste the role you want and keep the requirements visible while you edit your resume.</p>
+                        <div class="glass-card rounded-2xl p-6 group hover:border-primary/20 transition-colors">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-primary/12 text-primary text-[11px] font-black">01</span>
+                                <p class="text-[10px] uppercase tracking-[0.22em] text-gray-500">Step</p>
+                            </div>
+                            <h3 class="text-[15px] font-bold text-white mb-2">Add the job description</h3>
+                            <p class="text-[13px] text-gray-400 leading-relaxed">Paste the role you want and keep the requirements visible while you edit your resume.</p>
                         </div>
-                        <div class="glass-card rounded-2xl p-5">
-                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Step 02</p>
-                            <h3 class="text-base font-bold text-white mb-2">Run the scan</h3>
-                            <p class="text-sm text-slate-300">The analyzer highlights matching skills, missing phrases, and weak positioning.</p>
+                        <div class="glass-card rounded-2xl p-6 group hover:border-primary/20 transition-colors">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-primary/12 text-primary text-[11px] font-black">02</span>
+                                <p class="text-[10px] uppercase tracking-[0.22em] text-gray-500">Step</p>
+                            </div>
+                            <h3 class="text-[15px] font-bold text-white mb-2">Run the scan</h3>
+                            <p class="text-[13px] text-gray-400 leading-relaxed">The analyzer highlights matching skills, missing phrases, and weak positioning.</p>
                         </div>
-                        <div class="glass-card rounded-2xl p-5">
-                            <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Step 03</p>
-                            <h3 class="text-base font-bold text-white mb-2">Refine the story</h3>
-                            <p class="text-sm text-slate-300">Use the result cards to tighten your summary and line up the strongest evidence.</p>
+                        <div class="glass-card rounded-2xl p-6 group hover:border-primary/20 transition-colors">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-primary/12 text-primary text-[11px] font-black">03</span>
+                                <p class="text-[10px] uppercase tracking-[0.22em] text-gray-500">Step</p>
+                            </div>
+                            <h3 class="text-[15px] font-bold text-white mb-2">Refine the story</h3>
+                            <p class="text-[13px] text-gray-400 leading-relaxed">Use the result cards to tighten your summary and line up the strongest evidence.</p>
                         </div>
                     </div>
 
+                    <!-- Tip Card -->
                     <div class="mt-5 rounded-2xl border border-white/8 bg-black/20 p-5">
                         <div class="flex items-center gap-2 mb-2">
                             <span class="material-symbols-outlined text-primary text-base">tips_and_updates</span>
-                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">What to paste</p>
+                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">What to paste</p>
                         </div>
-                        <p class="text-sm text-slate-300">Use a real job description with responsibilities, required skills, and preferred tools. The more concrete the JD, the better the score signal becomes.</p>
+                        <p class="text-[13px] text-gray-400 leading-relaxed">Use a real job description with responsibilities, required skills, and preferred tools. The more concrete the JD, the better the score signal becomes.</p>
                     </div>
                 </div>
 
@@ -1149,20 +1371,31 @@
                                 <span class="material-symbols-outlined text-primary">work</span>
                                 <h2 class="text-lg font-bold text-white">Target Job Description</h2>
                             </div>
-                            <p class="text-sm text-slate-300">Paste the job you are aiming for. The analyzer compares its language against your resume and shows the weakest links.</p>
+                            <p class="text-sm text-gray-400">Paste the job you are aiming for. The analyzer compares its language against your resume and shows the weakest links.</p>
                             <textarea id="job-description-input" rows="17" placeholder="Paste JD..." class="input-dark w-full rounded-2xl px-4 py-4 text-sm resize-none"></textarea>
 
                             <div class="rounded-xl border border-white/10 bg-black/20 p-3">
-                                <label for="ats-engine-mode" class="block text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">Analysis Engine</label>
-                                <select id="ats-engine-mode" class="input-dark w-full rounded-lg px-3 py-2.5 text-sm">
+                                <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-2">Analysis Engine</label>
+                                <select id="ats-engine-mode" class="sr-only" aria-hidden="true" tabindex="-1">
                                     <option value="auto" selected>Auto (Best of Local + API)</option>
                                     <option value="local">Local ML Model Only</option>
                                     <option value="api">API Model Only</option>
                                 </select>
-                                <p class="text-[11px] text-slate-400 mt-2">Pick <strong class="text-slate-200">Local</strong> for offline-safe analysis and lower latency.</p>
+                                <div class="custom-select-wrapper" id="engine-mode-main-wrapper">
+                                    <button type="button" class="custom-select-trigger input-dark w-full rounded-lg px-3 py-2.5 text-sm" id="engine-mode-main-trigger" aria-expanded="false" aria-haspopup="listbox">
+                                        <span id="engine-mode-main-label">⚡ Auto (Best of Local + API)</span>
+                                        <span class="material-symbols-outlined text-sm text-gray-400">expand_more</span>
+                                    </button>
+                                    <div class="custom-select-dropdown" id="engine-mode-main-dropdown" role="listbox">
+                                        <div class="custom-select-option selected" data-value="auto" role="option">⚡ Auto (Best of Local + API)</div>
+                                        <div class="custom-select-option" data-value="local" role="option">🖥 Local ML Model Only</div>
+                                        <div class="custom-select-option" data-value="api" role="option">🌐 API Model Only</div>
+                                    </div>
+                                </div>
+                                <p class="text-[11px] text-gray-400 mt-2">Pick <strong class="text-gray-400">Local</strong> for offline-safe analysis and lower latency.</p>
                             </div>
 
-                            <button id="btn-start-ai-analysis" class="w-full bg-cyan-400 text-neutral-950 py-3.5 rounded-2xl text-sm font-extrabold flex items-center justify-center gap-2 mt-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-300 hover:shadow-[0_18px_36px_rgba(34,211,238,0.16)] active:translate-y-0">
+                            <button id="btn-start-ai-analysis" class="w-full bg-primary text-neutral-950 py-3.5 rounded-2xl text-sm font-extrabold flex items-center justify-center gap-2 mt-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary hover:shadow-[0_18px_36px_rgba(231, 82, 26,0.16)] active:translate-y-0">
                                 <span class="material-symbols-outlined text-base">auto_awesome</span>
                                 Start AI Analysis
                             </button>
@@ -1170,17 +1403,17 @@
 
                         <div class="space-y-4">
                             <div class="glass-card rounded-2xl p-6">
-                                <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Guidance</p>
+                                <p class="text-[10px] uppercase tracking-[0.24em] text-gray-400 mb-3">Guidance</p>
                                 <h3 class="text-base font-bold text-white mb-2">Use the JD as your brief</h3>
-                                <ul class="space-y-2 text-sm text-slate-300 leading-relaxed">
-                                    <li>• Keep responsibilities and skills in the text.</li>
-                                    <li>• Include the must-have tools and domains.</li>
-                                    <li>• Avoid copy-pasting a full company page.</li>
+                                <ul class="space-y-2 text-sm text-gray-400 leading-relaxed">
+                                    <li>â€¢ Keep responsibilities and skills in the text.</li>
+                                    <li>â€¢ Include the must-have tools and domains.</li>
+                                    <li>â€¢ Avoid copy-pasting a full company page.</li>
                                 </ul>
                             </div>
                             <div class="glass-card rounded-2xl p-6">
-                                <p class="text-[10px] uppercase tracking-[0.24em] text-slate-400 mb-3">Best result</p>
-                                <p class="text-sm text-slate-300">A focused JD gives better keyword matches, cleaner suggestions, and a score that reflects the actual application gap.</p>
+                                <p class="text-[10px] uppercase tracking-[0.24em] text-gray-400 mb-3">Best result</p>
+                                <p class="text-sm text-gray-400">A focused JD gives better keyword matches, cleaner suggestions, and a score that reflects the actual application gap.</p>
                             </div>
                         </div>
                     </div>
@@ -1188,82 +1421,99 @@
 
                 <!-- Results State -->
                 <div id="ats-results-state" class="hidden max-w-4xl mx-auto space-y-6 animate-fade-in">
-                    <div class="glass-card rounded-3xl p-6 md:p-7">
-                        <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-primary mb-2">ATS Insight Deck</p>
-                        <h2 id="ats-result-headline" class="font-display text-3xl text-white leading-tight">Strong fit. Final polish needed.</h2>
-                        <p id="ats-result-subcopy" class="text-sm text-slate-300 mt-2 max-w-2xl">Your profile aligns with most requirements. Focus on missing keywords and measurable impact language.</p>
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            <button id="btn-edit-jd-again" type="button" class="inline-flex items-center gap-1.5 rounded-full border border-slate-400/20 px-3.5 py-1.5 text-xs font-bold text-slate-200 hover:bg-white/5 transition">
+                    <!-- Harmony Engine Status Bar -->
+                    <div id="ats-harmony-status" class="glass-card rounded-2xl p-4 flex items-center justify-between border-primary/20 bg-primary/5">
+                        <div class="flex items-center gap-3">
+                            <div class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] uppercase tracking-[0.2em] font-black text-white leading-none mb-1">Dual-Engine Harmony</p>
+                                <p id="ats-engine-status-text" class="text-[11px] text-gray-400">Local Semantic Match + Gemini AI Context Synthesis</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <span id="badge-local-engine" class="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-400 transition-all">Local ML Active</span>
+                            <span id="badge-api-engine" class="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-400 transition-all">Gemini API Active</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-3xl p-6 md:p-7 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <span class="material-symbols-outlined text-6xl">analytics</span>
+                        </div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-primary mb-2">Synthesis Result</p>
+                        <h2 id="ats-result-headline" class="font-display text-3xl text-white leading-tight">Analysing Context...</h2>
+                        
+                        <!-- New: Qualitative AI Analysis Box -->
+                        <div id="ats-ai-analysis-container" class="mt-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                            <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-2 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">psychology</span>
+                                AI Strategic Perspective
+                            </p>
+                            <p id="ats-ai-analysis-text" class="text-sm text-gray-300 italic leading-relaxed">Synthesizing local keyword match with professional context check...</p>
+                        </div>
+
+                        <p id="ats-result-subcopy" class="text-sm text-gray-400 mt-4 max-w-2xl">Your profile is being cross-referenced against the target JD requirements.</p>
+                        
+                        <div class="mt-6 flex flex-wrap gap-2">
+                            <button id="btn-edit-jd-again" type="button" class="inline-flex items-center gap-1.5 rounded-full border border-gray-400/20 px-3.5 py-1.5 text-xs font-bold text-gray-400 hover:bg-white/5 transition">
                                 <span class="material-symbols-outlined text-sm">edit</span>
                                 Update JD
                             </button>
-                            <button id="btn-jump-summary" type="button" class="inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-primary-dark transition">
+                            <button id="btn-jump-summary" type="button" class="inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-bold text-neutral-950 hover:bg-primary-dark transition shadow-ambient">
                                 <span class="material-symbols-outlined text-sm">description</span>
                                 Refine Summary
                             </button>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] gap-4">
-                        <div class="glass-card rounded-2xl p-5">
-                            <p class="text-xs font-bold text-white mb-2">Top Matched Keywords</p>
-                            <ul id="ats-top-found" class="space-y-1 text-sm text-slate-200"></ul>
+                    <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-4">
+                        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-success/40">
+                            <div class="flex items-center justify-between mb-3">
+                                <p class="text-xs font-bold text-white uppercase tracking-wider">Matched Keywords</p>
+                                <span id="ats-found-count" class="text-[10px] bg-success/20 text-success px-1.5 py-0.5 rounded-md font-bold">0</span>
+                            </div>
+                            <ul id="ats-top-found" class="flex flex-wrap gap-1.5 text-xs text-gray-400"></ul>
                         </div>
-                        <div class="glass-card rounded-2xl p-5">
-                            <p class="text-xs font-bold text-white mb-2">Top Missing Keywords</p>
-                            <ul id="ats-top-missing" class="space-y-1 text-sm text-slate-200"></ul>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-5">
-                        <p class="text-xs font-bold text-white mb-2">Suggested Improvements</p>
-                        <ul id="ats-suggestion-list" class="space-y-2 text-sm text-slate-300"></ul>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-5 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border-indigo-500/20">
-                        <div class="flex justify-between items-center mb-4">
-                            <p class="text-xs font-bold text-white">Zero-Shot Career Matcher (BART AI)</p>
-                            <button id="btn-fetch-role-match" class="text-[10px] bg-indigo-500 hover:bg-indigo-400 text-white px-2 py-1 rounded">Scan Role Fit</button>
-                        </div>
-                        <p class="text-xs text-slate-400 mb-3">Evaluates your resume's core identity against targeted career paths.</p>
-                        <div id="role-match-bars" class="space-y-3">
-                            <p class="text-[10px] text-slate-500 text-center italic">Click "Scan Role Fit" to generate.</p>
+                        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-danger/40">
+                            <div class="flex items-center justify-between mb-3">
+                                <p class="text-xs font-bold text-white uppercase tracking-wider">Missing Signal</p>
+                                <span id="ats-missing-count" class="text-[10px] bg-danger/20 text-danger px-1.5 py-0.5 rounded-md font-bold">0</span>
+                            </div>
+                            <ul id="ats-top-missing" class="flex flex-wrap gap-1.5 text-xs text-gray-400"></ul>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="glass-card rounded-2xl p-5">
-                            <p class="text-xs font-bold text-white mb-3">Local Engine</p>
-                            <p id="ats-local-engine-score" class="text-sm text-slate-300">Score: --</p>
-                            <p id="ats-local-engine-summary" class="text-xs text-slate-400 mt-2">Awaiting analysis.</p>
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-primary">tips_and_updates</span>
+                            <p class="text-xs font-bold text-white uppercase tracking-wider">Strategic Recommendations</p>
                         </div>
-                        <div class="glass-card rounded-2xl p-5">
-                            <p class="text-xs font-bold text-white mb-3">API Engine</p>
-                            <p id="ats-api-engine-score" class="text-sm text-slate-300">Score: --</p>
-                            <p id="ats-api-engine-summary" class="text-xs text-slate-400 mt-2">Awaiting analysis.</p>
-                        </div>
+                        <ul id="ats-suggestion-list" class="space-y-3 text-sm text-gray-400"></ul>
                     </div>
                 </div>
             </section>
 
-            <!-- ═══  LIVE PREVIEW PANEL  ═══ -->
+            <!-- â•â•â•  LIVE PREVIEW PANEL  â•â•â• -->
             <section id="live-preview-panel" class="workspace-preview reveal-right relative overflow-hidden bg-neutral-950 flex items-center justify-center p-8 lg:p-10 z-0 depth-card">
                 <div class="absolute inset-0 pointer-events-none opacity-18 [background-image:radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:22px_22px]"></div>
-                <div class="absolute top-1/5 left-1/2 -translate-x-1/2 w-[460px] h-[460px] bg-cyan-400/6 rounded-full blur-[120px] pointer-events-none"></div>
+                <div class="absolute top-1/5 left-1/2 -translate-x-1/2 w-[460px] h-[460px] bg-primary/6 rounded-full blur-[120px] pointer-events-none"></div>
 
                 <div class="relative w-full max-w-[820px]">
-                    <div class="mb-6 flex items-center justify-between px-2 text-[10px] uppercase tracking-[0.28em] text-slate-400">
+                    <div class="mb-6 flex items-center justify-between px-2 text-[10px] uppercase tracking-[0.28em] text-gray-400">
                         <span>Live Preview</span>
-                        <span>Paper scale · focus mode</span>
+                        <span>Paper scale Â· focus mode</span>
                     </div>
 
                     <div id="resume-pdf-content" class="paper-card relative mx-auto w-[595px] min-h-[842px] p-14 text-sm leading-relaxed transition-all duration-300 ease-out" style="transform: perspective(1000px) scale(1);">
                         <!-- Content injected by editor.js renderPreview() -->
-                        <header class="border-b border-slate-900/10 pb-6 mb-6">
+                        <header class="border-b border-gray-400/10 pb-6 mb-6">
                             <h1 class="text-3xl font-black tracking-tight uppercase mb-2">Your Name</h1>
                         </header>
                         <section class="mb-6">
-                            <p class="text-xs text-slate-700 leading-relaxed">Start typing in the editor...</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Start typing in the editor...</p>
                         </section>
                     </div>
                 </div>
@@ -1274,7 +1524,7 @@
                         <span class="material-symbols-outlined text-danger text-sm">psychology</span>
                         <div>
                             <p class="text-[9px] font-black text-danger tracking-widest uppercase">AI Suggestion</p>
-                            <p class="text-[10px] text-slate-300">Suggestion text</p>
+                            <p class="text-[10px] text-gray-400">Suggestion text</p>
                         </div>
                     </div>
                 </div>
@@ -1284,49 +1534,76 @@
         </main>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <!-- SCRIPTS                                                        -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div id="login-modal" class="hidden fixed inset-0 z-[100] items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/70 backdrop-blur-md"></div>
-        <div class="relative z-[101] w-full max-w-md rounded-[28px] border border-white/10 bg-slate-950/92 shadow-glass backdrop-blur-2xl p-6 md:p-8 text-white">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-xl"></div>
+        <div class="relative z-[101] w-full max-w-md rounded-[28px] border border-white/10 bg-neutral-900 shadow-2xl p-6 md:p-8 text-white">
             <div class="flex items-center gap-3 mb-5">
                 <div class="w-10 h-10 rounded-2xl bg-primary/12 border border-primary/20 flex items-center justify-center">
                     <span class="material-symbols-outlined text-primary">lock</span>
                 </div>
                 <div>
                     <h2 class="text-xl font-extrabold tracking-tight">Sign in to continue</h2>
-                    <p class="text-xs text-slate-400">Authenticate to refresh your session and retry the last action.</p>
+                    <p class="text-xs text-gray-400">Authenticate to refresh your session and retry the last action.</p>
                 </div>
             </div>
 
             <div class="space-y-4">
                 <div>
-                    <label for="login-email" class="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Email</label>
+                    <label for="login-email" class="block text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-2">Email</label>
                     <input id="login-email" type="email" class="input-dark w-full rounded-xl px-4 py-3 text-sm" placeholder="you@example.com" autocomplete="email" />
                 </div>
                 <div>
-                    <label for="login-password" class="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Password</label>
+                    <label for="login-password" class="block text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-2">Password</label>
                     <input id="login-password" type="password" class="input-dark w-full rounded-xl px-4 py-3 text-sm" placeholder="Your password" autocomplete="current-password" />
                 </div>
                 <button id="btn-do-login" class="w-full rounded-xl bg-primary hover:bg-primary-dark text-on-primary font-bold py-3 transition-all duration-200 hover:shadow-ambient active:scale-[0.99]">
                     Sign In
                 </button>
-                <p id="login-status" class="text-xs text-slate-400 min-h-4"></p>
+                <p id="login-status" class="text-xs text-gray-400 min-h-4"></p>
             </div>
         </div>
     </div>
 
     <!-- MAGIC CV PARSER MODAL -->
-    <div id="magic-modal" class="hidden fixed inset-0 z-[100] items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/70 backdrop-blur-md" onclick="document.getElementById('magic-modal').classList.add('hidden')"></div>
-        <div class="relative z-[101] w-full max-w-lg rounded-[28px] border border-primary/20 bg-slate-950/92 shadow-[#76d8cf_0_0_30px_-10px] backdrop-blur-2xl p-6 md:p-8 text-white">
+    <div id="magic-modal" class="hidden fixed inset-0 z-[100] items-center justify-center px-4 backdrop-blur-md">
+        <div class="absolute inset-0 bg-black/80" onclick="hideModal('magic-modal')"></div>
+        <div class="relative z-[101] w-full max-w-lg rounded-[32px] border border-white/10 bg-[#161616] shadow-obsidian p-6 md:p-8 text-white obsidian-panel-reflective">
             <h2 class="text-xl font-extrabold tracking-tight text-primary mb-2 flex items-center gap-2"><span class="material-symbols-outlined">auto_awesome</span> Magic Resume Parser</h2>
-            <p class="text-xs text-slate-300 mb-4">Paste your raw text CV below. Our SpaCy ML engine will automatically extract your name, email, phone, and work experience dates/companies.</p>
+            <p class="text-xs text-gray-400 mb-4">Paste your raw text CV below. Our SpaCy ML engine will automatically extract your name, email, phone, and work experience dates/companies.</p>
             <textarea id="magic-cv-text" class="input-dark w-full rounded-xl px-4 py-3 text-sm h-48 mb-4 resize-none" placeholder="Paste your raw resume text here..."></textarea>
             <div class="flex justify-end gap-3">
-                <button onclick="document.getElementById('magic-modal').classList.add('hidden')" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:bg-white/10">Cancel</button>
-                <button id="btn-run-magic" class="px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-black hover:bg-primary-dark shadow-ambient">Parse & Fill</button>
+                <button onclick="hideModal('magic-modal')" class="px-4 py-2 rounded-lg text-xs font-semibold text-gray-400 hover:bg-white/10">Cancel</button>
+                <button id="btn-run-magic" class="px-6 py-2 rounded-xl text-xs font-bold bg-primary text-black hover:bg-primary-dark shadow-glow transition-all active:scale-95">Parse & Fill</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMPLATE PICKER MODAL -->
+    <div id="template-picker-modal" class="hidden fixed inset-0 z-[110] items-center justify-center px-4 backdrop-blur-md">
+        <div class="absolute inset-0 bg-black/85" onclick="hideModal('template-picker-modal')"></div>
+        <div class="relative z-[111] w-full max-w-3xl rounded-[28px] border border-white/10 bg-[#111111] shadow-[0_32px_80px_rgba(0,0,0,0.7)] p-6 text-white">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-5">
+                <div>
+                    <h2 class="text-lg font-extrabold tracking-tight text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">style</span>
+                        Choose Your Template
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Click a style to preview it instantly. All templates are ATS-compliant.</p>
+                </div>
+                <button onclick="hideModal('template-picker-modal')" class="size-9 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <span class="material-symbols-outlined text-lg text-gray-400">close</span>
+                </button>
+            </div>
+            <!-- Template Grid -->
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-[68vh] overflow-y-auto pr-1" id="tpl-picker-grid">
+                <!-- cards injected by JS -->
+            </div>
+            <div class="flex justify-end mt-4">
+                <button id="btn-apply-template" class="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary/80 transition-all active:scale-95">Apply Template</button>
             </div>
         </div>
     </div>
@@ -1337,56 +1614,35 @@
         </div>
     </div>
     <script defer src="{{ url_for('static', filename='js/scroll-counters.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='js/main.js') }}?v=12"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}?v=16"></script>
     
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Role Matcher logic
-            const btnRoleMatch = document.getElementById('btn-fetch-role-match');
-            if (btnRoleMatch) {
-                btnRoleMatch.addEventListener('click', async () => {
-                    btnRoleMatch.innerText = "Scanning...";
-                    const barContainer = document.getElementById('role-match-bars');
-                    barContainer.innerHTML = `<p class="text-[10px] text-slate-300 text-center animate-pulse">Running BART Zero-Shot Classification...</p>`;
-                    
-                    // Grab current resume text generated by editor
-                    // Fallback to empty if not rendered
-                    const resumePreview = document.getElementById('resume-pdf-content');
-                    const text = resumePreview ? resumePreview.innerText : "";
-                    
-                    try {
-                        const res = await fetch("/api/v1/role-match", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ 
-                                text: text,
-                                roles: ["Software Engineer", "Backend Developer", "Data Scientist", "UI/UX Designer", "Product Manager"]
-                            })
-                        });
-                        const payload = await res.json();
-                        
-                        barContainer.innerHTML = '';
-                        if (payload.data) {
-                            for (const [role, score] of Object.entries(payload.data)) {
-                                barContainer.innerHTML += `
-                                    <div class="relative pt-1">
-                                      <div class="flex mb-1 items-center justify-between">
-                                        <div><span class="text-[10px] font-bold uppercase text-indigo-300">${role}</span></div>
-                                        <div class="text-right"><span class="text-[10px] font-bold text-white">${score}%</span></div>
-                                      </div>
-                                      <div class="overflow-hidden h-1.5 mb-1 text-xs flex rounded bg-indigo-500/20">
-                                        <div style="width:${score}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-400"></div>
-                                      </div>
-                                    </div>
-                                `;
-                            }
-                        }
-                    } catch (e) {
-                        barContainer.innerHTML = `<p class="text-xs text-red-400 text-center">Failed to fetch role matches.</p>`;
-                    }
-                    btnRoleMatch.innerText = "Scan Role Fit";
-                });
+        function showModal(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('hidden');
+                el.classList.add('flex');
             }
+        }
+
+        function hideModal(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('hidden');
+                el.classList.remove('flex');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Re-bind modal clicks to hideModal
+            document.querySelectorAll('[onclick^="document.getElementById"]').forEach(el => {
+               const onclick = el.getAttribute('onclick');
+               if (onclick.includes('classList.add(\'hidden\')')) {
+                   const id = onclick.match(/'([^']+)'/)[1];
+                   el.setAttribute('onclick', `hideModal('${id}')`);
+               }
+            });
 
             // Magic Parser Logic
             const btnMagic = document.getElementById('btn-run-magic');
@@ -1398,27 +1654,81 @@
                     btnMagic.innerText = "Parsing...";
                     
                     try {
-                        const res = await fetch("/api/v1/auto-parse", {
+                        const res = await fetch("/api/v1/resumes/auto-parse", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ text: txt })
                         });
+                        
+                        if (res.redirected || !res.ok) {
+                            if (res.status === 401 || res.redirected) {
+                                document.getElementById('login-modal').classList.remove('hidden');
+                                throw new Error("Please log in to use Magic Auto-Fill.");
+                            }
+                            throw new Error("HTTP " + res.status);
+                        }
+
                         const payload = await res.json();
                         
                         if (payload.data) {
                             const p = payload.data.personal_info || {};
-                            if (p.name) document.querySelector('[data-bind="personal.fullName"]').value = p.name;
-                            if (p.email) document.querySelector('[data-bind="personal.email"]').value = p.email;
-                            if (p.phone) document.querySelector('[data-bind="personal.phone"]').value = p.phone;
                             
-                            // Trigger input events to notify Alpine/JS reactive state
-                            document.querySelectorAll('[data-bind^="personal."]').forEach(el => el.dispatchEvent(new Event('input')));
+                            const safeSet = (selector, val) => {
+                                const el = document.querySelector(selector);
+                                if (el && val) {
+                                    el.value = val;
+                                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                                }
+                            };
+
+                            if (p.name) safeSet('[data-bind="personal.fullName"]', p.name);
+                            if (p.email) safeSet('[data-bind="personal.email"]', p.email);
+                            if (p.phone) safeSet('[data-bind="personal.phone"]', p.phone);
+                            if (p.location) safeSet('[data-bind="personal.location"]', p.location);
+                            if (p.linkedin) safeSet('[data-bind="personal.linkedin"]', p.linkedin);
+                            
+                            // Trigger all personal info inputs
+                            document.querySelectorAll('[data-bind^="personal."]').forEach(el => {
+                                el.dispatchEvent(new Event('input', { bubbles: true }));
+                            });
+
+                            // Map Experience
+                            const exp = payload.data.experience || [];
+                            if (exp.length > 0) {
+                                // Ensure section is open
+                                const expSecToggle = document.getElementById('toggle-experience');
+                                if (expSecToggle && !expSecToggle.checked) expSecToggle.click();
+
+                                setTimeout(() => {
+                                    exp.forEach((e, i) => {
+                                        if (i === 0) {
+                                            const roleInput = document.querySelector(`[data-bind="experience.${i}.role"]`);
+                                            if (roleInput) { roleInput.value = e.position || ''; roleInput.dispatchEvent(new Event('input')); }
+                                            
+                                            const companyInput = document.querySelector(`[data-bind="experience.${i}.companyName"]`);
+                                            if (companyInput) { companyInput.value = e.company || ''; companyInput.dispatchEvent(new Event('input')); }
+                                            
+                                            const descInput = document.querySelector(`[data-bind="experience.${i}.description"]`);
+                                            if (descInput) { descInput.value = e.description || ''; descInput.dispatchEvent(new Event('input')); }
+                                        }
+                                    });
+                                }, 100);
+                            }
+                            
+                            if (payload.data.skills) {
+                                const skillsInput = document.querySelector('[data-bind="skillsString"]');
+                                if (skillsInput) {
+                                    skillsInput.value = payload.data.skills.join(', ');
+                                    skillsInput.dispatchEvent(new Event('input'));
+                                }
+                            }
                             
                             document.getElementById('magic-modal').classList.add('hidden');
-                            alert("Personal info auto-filled! (Experience blocks extraction logic is available in backend response and can be hooked to DOM similarly via the array structure).");
+                            document.getElementById('magic-modal').classList.remove('flex');
+                            alert("Magic Parser complete! Form populated.");
                         }
                     } catch (e) {
-                        alert("Failed to parse CV.");
+                        alert("Failed to parse CV: " + e.message);
                     }
                     btnMagic.innerText = "Parse & Fill";
                 });

@@ -15,14 +15,14 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         obsidian: { DEFAULT: '#090d12', 100: '#11151c', 200: '#171d26' },
-                        cyanline: { DEFAULT: '#22d3ee', 100: '#67e8f9' },
+                        orange: { DEFAULT: '#ff5a1f', 100: '#ff7a45' },
                         ink: '#e8eef7',
                         muted: '#9ca7b8',
                         danger: '#f87171'
                     },
                     boxShadow: {
                         obsidian: '0 28px 80px rgba(0, 0, 0, 0.55)',
-                        glow: '0 0 0 1px rgba(34, 211, 238, 0.14), 0 0 48px rgba(34, 211, 238, 0.18)'
+                        glow: '0 0 0 1px rgba(255, 90, 31, 0.14), 0 0 48px rgba(255, 90, 31, 0.18)'
                     }
                 }
             }
@@ -31,9 +31,9 @@
     <style>
         body {
             background:
-                radial-gradient(circle at top left, rgba(34, 211, 238, 0.12), transparent 28%),
-                radial-gradient(circle at 80% 20%, rgba(129, 140, 248, 0.10), transparent 24%),
-                radial-gradient(circle at bottom, rgba(15, 118, 110, 0.12), transparent 26%),
+                radial-gradient(circle at top left, rgba(255, 90, 31, 0.12), transparent 28%),
+                radial-gradient(circle at 80% 20%, rgba(255, 122, 69, 0.08), transparent 24%),
+                radial-gradient(circle at bottom, rgba(180, 50, 10, 0.10), transparent 26%),
                 #090d12;
         }
 
@@ -46,8 +46,8 @@
 
         .focus-cyan:focus {
             outline: none;
-            border-color: rgba(34, 211, 238, 0.55);
-            box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.14), 0 0 0 8px rgba(34, 211, 238, 0.05);
+            border-color: rgba(255, 90, 31, 0.55);
+            box-shadow: 0 0 0 2px rgba(255, 90, 31, 0.14), 0 0 0 8px rgba(255, 90, 31, 0.05);
             background: rgba(9, 13, 18, 0.92);
         }
 
@@ -65,7 +65,7 @@
         <section class="grid w-full gap-6 lg:grid-cols-[0.95fr_1.05fr] xl:gap-10">
             <div class="hidden flex-col justify-between rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-obsidian lg:flex">
                 <div>
-                    <div class="mb-8 inline-flex items-center gap-3 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-cyan-100">
+                    <div class="mb-8 inline-flex items-center gap-3 rounded-full border border-orange-100/20 bg-orange-100/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-orange-100">
                         <span class="material-symbols-outlined text-sm">edit_square</span>
                         Digital Obsidian Onboarding
                     </div>
@@ -95,11 +95,11 @@
             <div class="flex items-center justify-center">
                 <section class="w-full max-w-[32rem] rounded-[2rem] glass-card p-6 sm:p-8 md:p-10">
                     <div class="mb-8 flex items-center gap-4">
-                        <div class="flex size-14 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/12 shadow-glow">
-                            <span class="material-symbols-outlined text-3xl text-cyan-100">person_add</span>
+                        <div class="flex size-14 items-center justify-center rounded-2xl border border-orange-100/20 bg-orange-100/12 shadow-glow">
+                            <span class="material-symbols-outlined text-3xl text-orange-100">person_add</span>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black uppercase tracking-[0.32em] text-cyan-100/80">Secure Access</p>
+                            <p class="text-[10px] font-black uppercase tracking-[0.32em] text-orange-100/80">Secure Access</p>
                             <h2 class="mt-2 text-3xl font-black tracking-tight text-white sm:text-4xl">Sign Up</h2>
                             <p class="mt-1 text-sm text-slate-400">Create your Digital Obsidian account.</p>
                         </div>
@@ -126,7 +126,7 @@
                             <input id="register-confirm-password" name="confirm_password" type="password" autocomplete="new-password" required class="focus-cyan w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder:text-slate-500 transition" placeholder="Repeat your password" />
                         </div>
 
-                        <button type="submit" class="w-full rounded-2xl bg-cyan-300 py-3.5 text-[15px] font-black text-slate-950 transition-colors hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-300/40 active:scale-[0.99]">
+                        <button type="submit" class="w-full rounded-2xl py-3.5 text-[15px] font-black text-white transition-colors focus:outline-none focus:ring-2 active:scale-[0.99]" style="background: linear-gradient(120deg, #ff7a45, #ff5a1f); box-shadow: 0 8px 24px rgba(255,90,31,0.3);">
                             Create Account
                         </button>
 
@@ -136,7 +136,7 @@
 
                         <p class="text-sm text-slate-400">
                             Already have an account?
-                            <a href="{{ url_for('login_page') }}" class="font-semibold text-cyan-100 transition hover:text-cyan-50">Login here</a>
+                            <a href="{{ url_for('login_page') }}" class="font-semibold text-orange-100 transition hover:text-orange-50">Login here</a>
                         </p>
                     </form>
                 </section>

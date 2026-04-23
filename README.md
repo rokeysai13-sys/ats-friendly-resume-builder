@@ -1,11 +1,10 @@
 <div align="center">
 
-# ⚡ Advanced ATS Resume Builder
+# ⚡ ATS-Friendly Resume Builder
+### *Resume Atelier — Digital Obsidian*
 
-### *Where AI meets your career*
-
-**A full-stack, AI-powered resume builder with hybrid NLP scoring, semantic keyword intelligence,  
-real-time live preview, and 14 cinematic templates — built to beat any ATS system.**
+**A full-stack, AI-powered resume builder with hybrid NLP scoring, semantic keyword intelligence,
+real-time live preview, and 12 cinematic templates — built to beat any ATS system.**
 
 <br/>
 
@@ -18,7 +17,7 @@ real-time live preview, and 14 cinematic templates — built to beat any ATS sys
 
 <br/>
 
-> 📅 **Last Audit:** April 10, 2026 &nbsp;|&nbsp; 🔒 **Security:** Production-Grade &nbsp;|&nbsp; 🤖 **AI Models:** 6 Active
+> 📅 **Last Updated:** April 22, 2026 &nbsp;|&nbsp; 🔒 **Security:** Production-Grade &nbsp;|&nbsp; 🤖 **AI Models:** 6 Active
 
 </div>
 
@@ -30,13 +29,13 @@ real-time live preview, and 14 cinematic templates — built to beat any ATS sys
 |---|---------|
 | 1 | [✨ Features at a Glance](#-features-at-a-glance) |
 | 2 | [🏗️ Architecture Overview](#-architecture-overview) |
-| 3 | [🤖 AI & ML Models — Full Breakdown](#-ai--ml-models--full-breakdown) |
-| 4 | [🛠️ Full Tech Stack](#-full-tech-stack) |
+| 3 | [🤖 AI & ML Models](#-ai--ml-models) |
+| 4 | [🛠️ Tech Stack](#-tech-stack) |
 | 5 | [📁 Project Structure](#-project-structure) |
 | 6 | [🗃️ Database Schema](#-database-schema) |
 | 7 | [🌐 API Reference](#-api-reference) |
 | 8 | [🔒 Security Features](#-security-features) |
-| 9 | [🎨 14 Resume Templates](#-14-resume-templates) |
+| 9 | [🎨 Resume Templates](#-resume-templates) |
 | 10 | [🚀 Setup & Running](#-setup--running) |
 | 11 | [📦 Environment Variables](#-environment-variables) |
 | 12 | [🔄 Live Data Flow](#-live-data-flow) |
@@ -62,7 +61,7 @@ real-time live preview, and 14 cinematic templates — built to beat any ATS sys
 
 ### 🎨 Builder Experience
 - ✅ **Live Resume Preview** — Updates as you type, zero lag
-- ✅ **14 Cinematic Templates** — Dark, light, classic, neon themes
+- ✅ **12 Cinematic Templates** — Dark, light, classic, neon themes
 - ✅ **One-Click PDF Export** — Client-side via html2pdf.js
 - ✅ **Version History** — Snapshot any state, revert anytime
 - ✅ **Public Share Links** — Tokenized, expirable sharing
@@ -128,16 +127,14 @@ real-time live preview, and 14 cinematic templates — built to beat any ATS sys
 
 ---
 
-## 🤖 AI & ML Models — Full Breakdown
+## 🤖 AI & ML Models
 
-> **This project uses a hybrid AI architecture** — combining cloud LLMs with lightweight local ML models for speed, accuracy, and full offline resilience.
+> **Hybrid AI architecture** — cloud LLMs + lightweight local ML for speed, accuracy, and offline resilience.
 
----
+### Model Overview
 
-### 📊 Model Overview Table
-
-| # | Model | Type | Library | Primary Role |
-|---|-------|------|---------|-------------|
+| # | Model | Type | Library | Role |
+|---|-------|------|---------|------|
 | 1 | `gemini-1.5-flash` | ☁️ Cloud LLM (Primary) | `google-genai` | ATS analysis, bullet rewriting, summary generation |
 | 2 | `gemini-1.5-pro` | ☁️ Cloud LLM (Fallback) | `google-genai` | High-accuracy API fallback |
 | 3 | `all-MiniLM-L6-v2` | 🧬 Sentence Embedding | `sentence-transformers` | Semantic resume ↔ JD similarity |
@@ -145,156 +142,7 @@ real-time live preview, and 14 cinematic templates — built to beat any ATS sys
 | 5 | `en_core_web_md` | 🏷️ NER / NLP | `spacy` | Entity extraction from raw CV text |
 | 6 | `KeyBERT` | 🔑 Keyword Intelligence | `keybert` | Contextual keyword weight detection |
 
----
-
-### 🔬 Deep Dives
-
-<details>
-<summary><strong>☁️ Model 1 & 2 — Google Gemini 1.5 Flash / Pro</strong></summary>
-
-<br/>
-
-```
-Provider : Google AI (Cloud API)
-Models   : gemini-1.5-flash  (primary — speed-optimised)
-           gemini-1.5-pro    (fallback — accuracy-optimised)
-Library  : google-genai v1.14.0
-Output   : Structured JSON
-```
-
-**What it does:**
-- Runs all three generative AI features: ATS analysis, bullet point optimization, and professional summary generation.
-- Returns **structured JSON** with ATS score, found/missing keyword arrays, and human-readable analysis text.
-- Gemini Flash delivers near-instant responses for the interactive editor experience.
-- Gemini Pro activates automatically as the fallback when Flash is unavailable.
-
-**Graceful Degradation:**
-All three features have deterministic local fallbacks — the app never breaks without an API key.
-
-</details>
-
----
-
-<details>
-<summary><strong>🧬 Model 3 — all-MiniLM-L6-v2 (Semantic Matcher)</strong></summary>
-
-<br/>
-
-```
-Type     : Dense Sentence Embedding Neural Network
-Library  : sentence-transformers
-Size     : ~80 MB
-Speed    : Very fast (CPU-friendly)
-Replaces : Heavy multilingual model (saved significant server RAM)
-```
-
-**What it does:**
-
-Converts both the resume text and the job description into high-dimensional semantic vectors, then measures their cosine similarity.
-
-**Why this matters — example:**
-
-| Resume says | JD says | Exact match? | Semantic match? |
-|---|---|---|---|
-| "built REST APIs" | "developed backend services" | ❌ | ✅ |
-| "led a team of 4" | "team leadership experience" | ❌ | ✅ |
-| "Python, FastAPI" | "Python web frameworks" | ❌ | ✅ |
-
-Traditional ATS systems fail all three. This model catches all of them.
-
-</details>
-
----
-
-<details>
-<summary><strong>🎯 Model 4 — facebook/bart-large-mnli (Zero-Shot Role Classifier)</strong></summary>
-
-<br/>
-
-```
-Type     : Natural Language Inference (NLI) — Sequence Classification
-Library  : transformers (HuggingFace)
-Task     : Zero-shot classification
-Training : Pre-trained on MNLI — no resume-specific fine-tuning needed
-```
-
-**What it does:**
-
-Takes the full resume content and scores it against a dynamic list of job roles — **with no labeled training data required**.
-
-**Example output:**
-```json
-{
-  "Backend Developer":     0.92,
-  "Data Scientist":        0.74,
-  "ML Engineer":           0.61,
-  "Frontend Developer":    0.41,
-  "DevOps Engineer":       0.33
-}
-```
-
-This tells a user not just "you match this job" — but *how* their entire skillset maps across the job landscape.
-
-</details>
-
----
-
-<details>
-<summary><strong>🏷️ Model 5 — en_core_web_md (spaCy NER)</strong></summary>
-
-<br/>
-
-```
-Type     : Statistical NLP Model (Named Entity Recognition)
-Library  : spacy
-Model    : en_core_web_md  (medium English pipeline)
-Install  : python -m spacy download en_core_web_md
-```
-
-**What it does:**
-
-Automatically extracts structured facts from raw, unformatted CV text pasted by the user:
-
-| Entity Type | Example Extraction |
-|---|---|
-| 📅 **DATE** | "2021 – 2023", "June 2020" |
-| 🏢 **ORG** | "Google", "NSRIT", "Infosys" |
-| 👤 **PERSON** | Auto-fills name field |
-| 📍 **GPE** | "Visakhapatnam", "Bangalore" |
-
-This eliminates manual form-filling — the builder auto-populates fields from pasted raw CV text.
-
-</details>
-
----
-
-<details>
-<summary><strong>🔑 Model 6 — KeyBERT (Keyword Intelligence Engine)</strong></summary>
-
-<br/>
-
-```
-Type     : BERT-based Keyword Extraction
-Library  : keybert
-Backbone : sentence-transformers (reuses all-MiniLM-L6-v2 embeddings)
-```
-
-**Why it's better than simple word counting:**
-
-```
-Raw text: "Designed scalable Machine Learning pipelines for real-time inference"
-
-❌ TF-IDF finds:   "Designed", "scalable", "real-time"
-✅ KeyBERT finds:  "Machine Learning pipelines", "real-time inference", "scalable"
-```
-
-KeyBERT understands **multi-word phrases as single concepts** and ranks them by relevance to the document's topic — giving the ATS engine far more precise keyword gap detection.
-
-</details>
-
----
-
-### 🔄 Hybrid ATS Engine — Full Pipeline
+### Hybrid ATS Pipeline
 
 ```
   User submits resume text + job description
@@ -304,36 +152,27 @@ KeyBERT understands **multi-word phrases as single concepts** and ranks them by 
          ▼                       ▼
   ┌─────────────────┐    ┌──────────────────────────────┐
   │  ☁️ GEMINI API  │    │  🧠 LOCAL NLP PIPELINE       │
-  │                 │    │                              │
-  │  Structured     │    │  1. KeyBERT                  │
-  │  JSON output:   │    │     → Extract weighted       │
-  │  · ATS Score    │    │       keywords from both     │
-  │  · Found KWs    │    │       resume + JD            │
-  │  · Missing KWs  │    │                              │
-  │  · Analysis     │    │  2. all-MiniLM-L6-v2         │
-  │                 │    │     → Semantic similarity    │
-  │  Rate: 5/min    │    │       score                  │
-  │  Fallback: Pro  │    │                              │
-  │                 │    │  3. BART-large-mnli          │
-  └────────┬────────┘    │     → Role confidence %      │
-           │             └──────────────┬───────────────┘
+  │  · ATS Score    │    │  1. KeyBERT keyword extract  │
+  │  · Found KWs    │    │  2. MiniLM semantic score    │
+  │  · Missing KWs  │    │  3. BART role confidence %   │
+  │  · Analysis     │    │                              │
+  └────────┬────────┘    └──────────────┬───────────────┘
            └────────────┬───────────────┘
                         ▼
           ┌─────────────────────────────┐
           │  MERGE & SELECT BEST RESULT │
           │  · Higher score wins        │
           │  · Keywords from both       │
-          │  · Role scores appended     │
           └──────────────┬──────────────┘
                          ▼
               Final ATS Report → UI
 ```
 
-> 💡 **`auto` mode** (default) runs **both** pipelines simultaneously and returns the better result — ensuring accurate scoring whether the Gemini API key is present or not.
+> 💡 **`auto` mode** runs **both** pipelines simultaneously — works with or without a Gemini API key.
 
 ---
 
-## 🛠️ Full Tech Stack
+## 🛠️ Tech Stack
 
 ### 🐍 Backend
 
@@ -341,10 +180,9 @@ KeyBERT understands **multi-word phrases as single concepts** and ranks them by 
 |---|---|---|
 | **Flask** | 3.1.0 | Web framework — app factory + Blueprints |
 | **Flask-SQLAlchemy** | 3.1.1 | ORM for all database models |
-| **SQLAlchemy** | 2.0.36 | Core ORM engine |
 | **Flask-Migrate** | 4.0.7 | Database migrations via Alembic |
 | **Flask-Login** | 0.6.3 | Session-based authentication |
-| **Flask-Bcrypt** | 1.0.1 | Cryptographically secure password hashing |
+| **Flask-Bcrypt** | 1.0.1 | Password hashing |
 | **Flask-Limiter** | 3.5.0 | Rate limiting per endpoint |
 | **Marshmallow** | 3.23.2 | Request/response schema validation |
 | **PyJWT** | 2.10.1 | JWT refresh token generation |
@@ -353,37 +191,29 @@ KeyBERT understands **multi-word phrases as single concepts** and ranks them by 
 | **Redis** | 5.2.0 | Caching + Celery message broker |
 | **google-genai** | 1.14.0 | Google Gemini API client |
 | **Gunicorn** | 22.0.0 | Production WSGI server |
-| **python-dotenv** | 1.0.1 | `.env` variable loading |
 
 ### 🧠 AI / NLP
 
-| Library | Model Used | Purpose |
+| Library | Model | Purpose |
 |---|---|---|
 | `google-genai` | `gemini-1.5-flash` / `pro` | Generative AI — ATS, bullets, summary |
 | `sentence-transformers` | `all-MiniLM-L6-v2` | Semantic embedding & similarity |
 | `transformers` | `facebook/bart-large-mnli` | Zero-shot role classification |
 | `spacy` | `en_core_web_md` | NER entity extraction |
-| `keybert` | *(uses MiniLM backbone)* | Contextual keyword extraction |
+| `keybert` | *(MiniLM backbone)* | Contextual keyword extraction |
 | `scikit-learn` | TF-IDF pipeline | Local ATS fallback scoring |
-| `torch` (PyTorch) | *(inference backend)* | Neural model runtime |
+| `torch` | *(inference backend)* | Neural model runtime |
 
 ### 🎨 Frontend
 
 | Technology | Purpose |
 |---|---|
 | **Vanilla JavaScript (ES6+)** | Reactive store, editor logic, data binding |
-| **Tailwind CSS** | Utility-first styling across all pages |
+| **Tailwind CSS** | Utility-first styling |
 | **GSAP** | Cinematic scroll-triggered animations |
-| **html2pdf.js** | Client-side PDF generation and export |
+| **html2pdf.js** | Client-side PDF export |
 | **Google Fonts** — Manrope, Fraunces | Typography |
 | **Material Symbols** | Icon library |
-
-### 🗄️ Database
-
-| Technology | Environment | Notes |
-|---|---|---|
-| **SQLite** | Development | File-based, zero config |
-| **PostgreSQL** | Production | Set via `DATABASE_URL` env var |
 
 ---
 
@@ -430,16 +260,12 @@ resume_builder_project/
 │   │
 │   └── static/
 │       ├── css/
-│       │   ├── cinematic.css
-│       │   ├── cinematic-refactor.css
 │       │   └── unified-cinematic.css
 │       └── js/
 │           ├── editor.js         # 🖊️  Core: store, preview, ATS, templates
 │           ├── store.js          #    Reactive state (Store class)
 │           ├── export.js         #    PDF export utilities
-│           ├── gsap-animations.js
-│           ├── immersive3d.js
-│           └── cinematic*.js
+│           └── gsap-animations.js
 │
 ├── migrations/                  # Alembic migration files
 ├── tests/                       # 🧪 Test suite
@@ -447,7 +273,6 @@ resume_builder_project/
 ├── requirements.txt
 ├── tailwind.config.js
 ├── .env
-├── .gitignore
 └── pytest.ini
 ```
 
@@ -455,14 +280,11 @@ resume_builder_project/
 
 ## 🗃️ Database Schema
 
-### Entity Relationship Diagram
-
 ```mermaid
 erDiagram
     USERS ||--o{ RESUMES : owns
     USERS ||--o{ REFRESH_TOKENS : has
     USERS ||--o{ SECURITY_AUDIT_LOG : generates
-    USERS ||--o{ CERTIFICATIONS_USER : has
     RESUMES ||--o{ EDUCATION : contains
     RESUMES ||--o{ EXPERIENCE : contains
     RESUMES ||--o{ SKILLS : contains
@@ -473,8 +295,6 @@ erDiagram
     TEMPLATES ||--o{ RESUMES : styles
 ```
 
-### Table Reference
-
 | Table | Key Fields | Purpose |
 |---|---|---|
 | `users` | id, name, email, password_hash, google_id | User accounts |
@@ -484,10 +304,9 @@ erDiagram
 | `skills` | id, resume_id, skill_name, level | Technical skills |
 | `projects` | id, resume_id, title, description, tech_stack, github_link, demo_link | Projects |
 | `certificates` | id, resume_id, name, issuer, year | Resume-level certificates |
-| `certifications` | id, user_id, name, issuing_org, issue_date, credential_url | User-level certs |
 | `versions` | id, resume_id, version_no, label, data (JSON) | Resume snapshots |
 | `public_links` | id, resume_id, token, expires_at | Tokenized sharing |
-| `templates` | id, name, html_path, css_path, ats_safe | 14 template definitions |
+| `templates` | id, name, html_path, css_path, ats_safe | Template definitions |
 | `refresh_tokens` | id, user_id, token_hash, expires_at, revoked | JWT refresh store |
 | `security_audit_log` | id, user_id, event_type, ip_address, payload | Security events |
 
@@ -525,11 +344,10 @@ erDiagram
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/resumes/:id/versions` | List version history |
-| `GET` | `/resumes/:id/versions/:no` | Get specific version snapshot |
 | `POST` | `/resumes/:id/versions/:no/revert` | Revert to a past version |
 | `POST` | `/resumes/:id/share` | Generate tokenized public link |
 | `DELETE` | `/resumes/:id/share` | Revoke public link |
-| `GET` | `/public/:token` | View shared resume (no auth required) |
+| `GET` | `/public/:token` | View shared resume (no auth) |
 
 ### 🤖 AI Endpoints
 
@@ -549,18 +367,17 @@ erDiagram
 | **Session Management** | `Flask-Login` | HttpOnly + SameSite=Lax secure cookies |
 | **Rate Limiting** | `Flask-Limiter` | 60/min global · 5/min on all AI endpoints |
 | **JWT Tokens** | `PyJWT` | Refresh token rotation with revocation |
-| **CSRF Protection** | SameSite=Lax cookies | Cross-site request forgery mitigation |
 | **Security Headers** | Custom middleware | HSTS · X-Frame-Options · X-Content-Type-Options |
-| **Input Validation** | Marshmallow schemas | Every endpoint validated — no raw data reaches DB |
+| **Input Validation** | Marshmallow schemas | Every endpoint validated before DB |
 | **Audit Logging** | `SecurityAuditLog` table | Tracks logins, injection attempts, anomalies |
 | **Prompt Injection Defense** | Keyword filtering | Applied in `ats_service.py` before Gemini calls |
 | **OAuth2** | `Authlib` | Google Sign-In with full OAuth2 flow |
 
 ---
 
-## 🎨 14 Resume Templates
+## 🎨 Resume Templates
 
-> All templates render every section: **Summary · Experience · Projects · Education · Skills · Certifications**
+> All templates render: **Summary · Experience · Projects · Education · Skills · Certifications**
 
 | # | Template | Aesthetic | Theme |
 |---|---|---|---|
@@ -576,9 +393,6 @@ erDiagram
 | 10 | `mono` | Monospace typewriter aesthetic | ⬜ Light |
 | 11 | `skyline` | Blue gradient header, corporate | ⬜ Light |
 | 12 | `matrix` | Green-on-black terminal hacker theme | 🌑 Full dark |
-| 13 | `paperclip` | Skeuomorphic pinned-paper design | ⬜ Light |
-| 14 | `zen` | Centered, spacious, meditative layout | ⬜ Light |
-| 15 | `neon` | Fuchsia-on-dark glowing cyberpunk | 🌑 Full dark |
 
 ---
 
@@ -594,7 +408,7 @@ Python 3.10+    Redis server    Node.js (optional, for Tailwind builds)
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/ats-resume-builder.git
+git clone https://github.com/rokeysai13-sys/ats-resume-builder.git
 cd ats-resume-builder
 
 # 2. Create & activate virtual environment
@@ -664,9 +478,6 @@ LLM_FALLBACK_MODEL=gemini-1.5-pro
 
 # ─── App Config ──────────────────────────────────────────────
 FLASK_ENV=development
-
-# ─── Storage (Optional) ──────────────────────────────────────
-S3_BUCKET_NAME=your-s3-bucket-name
 ```
 
 ---
@@ -677,10 +488,10 @@ S3_BUCKET_NAME=your-s3-bucket-name
 User types in form input
         │
         ▼
-[data-bind="projects.0.title"]
+[data-bind="personal.phone"]
         │  input event
         ▼
-store.update('projects.0.title', value)
+store.update('personal.phone', value)
         │
         ▼
 store emits '*' event
@@ -692,13 +503,13 @@ renderPreview(state) ──→ Live preview updates instantly
 Debounced (1 second)
         │
         ▼
-saveSectionData('projects.0.title')
+saveSectionData('personal.phone')
         │
         ▼
-path.startsWith('projects') ──→ PUT /api/v1/resumes/:id/projects
+PUT /api/v1/resumes/:id/personal-info
         │
         ▼
-update_resume_section() → Clear old rows → Insert new → DB commit ✅
+update_personal_info() → DB commit ✅
 ```
 
 ---
@@ -708,12 +519,34 @@ update_resume_section() → Clear old rows → Insert new → DB commit ✅
 | Section | Store Key | Form | Preview | Save | Load | Status |
 |---|---|---|---|---|---|---|
 | Personal Info | `personal.*` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
+| Phone Number | `personal.phone` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 | Summary | `summary` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 | Education | `education[]` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 | Experience | `experience[]` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 | Skills | `skillsString` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 | Projects | `projects[]` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 | Certifications | `certifications[]` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
+
+---
+
+## 📋 Changelog
+
+### v1.3.0 — April 22, 2026
+- 🐛 **Fixed:** Phone number now correctly renders in all resume templates and fallback sample preview
+- 🐛 **Fixed:** Template selector immediately updates the live preview on change
+- 🎨 **Improved:** Orange/warm theme visibility restored in template picker
+- 🔇 **Silenced:** Redis connection warnings in development terminal output
+
+### v1.2.0 — April 21, 2026
+- ✨ **Added:** ATS Lab panel with dual-engine hybrid analysis display
+- ✨ **Added:** Cinematic status indicators for AI analysis progress
+- 🎨 **Improved:** ATS panel layout — expands to full width when active
+
+### v1.1.0 — April 14, 2026
+- ✨ **Added:** 12 resume templates with live switching
+- ✨ **Added:** Version history — snapshot and revert any state
+- ✨ **Added:** Public tokenized share links
+- 🔒 **Added:** Prompt injection defense in ATS service
 
 ---
 
@@ -727,6 +560,4 @@ update_resume_section() → Clear old rows → Insert new → DB commit ✅
 
 *Flask · Vanilla JS · Google Gemini · HuggingFace Transformers · spaCy · PyTorch*
 
-</div>#   a t s - r e s u m e s  
- #   m y - f i r s t - p r o j e c t  
- 
+</div>
