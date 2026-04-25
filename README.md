@@ -17,7 +17,7 @@ real-time live preview, and 12 cinematic templates — built to beat any ATS sys
 
 <br/>
 
-> 📅 **Last Updated:** April 22, 2026 &nbsp;|&nbsp; 🔒 **Security:** Production-Grade &nbsp;|&nbsp; 🤖 **AI Models:** 6 Active
+>  2026 &nbsp;|&nbsp; 🔒 **Security:** Production-Grade &nbsp;|&nbsp; 🤖 **AI Models:** 6 Active
 
 </div>
 
