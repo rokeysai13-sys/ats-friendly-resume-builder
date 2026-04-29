@@ -560,5 +560,4 @@ update_personal_info() → DB commit ✅
 
 *Flask · Vanilla JS · Google Gemini · HuggingFace Transformers · spaCy · PyTorch*
 
-</div>#   a t s - f r i e n d l y - r e s u m e - b u i l d e r  
- 
+</div>#
