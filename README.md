@@ -1,27 +1,35 @@
 <div align="center">
 
-# ⚡ ATS-Friendly Resume Builder
-### *Resume Atelier — Digital Obsidian*
-
-**A full-stack, AI-powered resume builder with hybrid NLP scoring, semantic keyword intelligence,
-real-time live preview, and 12 cinematic templates — built to beat any ATS system.**
+<img src="https://capsule-render.vercel.app/api?type=venom&color=0:000000,30:0f0500,60:1f0a00,100:000000&height=300&section=header&text=ATS%20Resume%20Builder&fontSize=60&fontColor=ffffff&fontAlignY=45&desc=Resume%20Atelier%20%E2%80%94%20Digital%20Obsidian&descSize=18&descAlignY=63&descColor=f97316&animation=fadeIn&stroke=f97316&strokeWidth=2" width="100%"/>
 
 <br/>
 
-[![Status](https://img.shields.io/badge/Status-Operational-00d26a?style=for-the-badge&logo=checkmarx&logoColor=white)](.)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776ab?style=for-the-badge&logo=python&logoColor=white)](.)
-[![Flask](https://img.shields.io/badge/Flask-3.1.0-000000?style=for-the-badge&logo=flask&logoColor=white)](.)
-[![Gemini](https://img.shields.io/badge/Google_Gemini-AI-4285F4?style=for-the-badge&logo=google&logoColor=white)](.)
-[![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](.)
-[![PyTorch](https://img.shields.io/badge/PyTorch-Backend-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](.)
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=14&duration=3000&pause=900&color=F97316&center=true&vCenter=true&width=750&height=28&lines=Full-Stack+AI+%C2%B7+Hybrid+NLP+Scoring+%C2%B7+12+Cinematic+Templates;Semantic+Keyword+Intelligence+%C2%B7+Real-Time+Live+Preview;Built+to+beat+any+ATS+system+%E2%80%94+intelligently."/>
+
+<br/><br/>
+
+[![Status](https://img.shields.io/badge/Status-Operational-00d26a?style=for-the-badge&logo=checkmarx&logoColor=white&labelColor=111111)](.)&nbsp;
+[![Python](https://img.shields.io/badge/Python-3.10+-3776ab?style=for-the-badge&logo=python&logoColor=white&labelColor=111111)](.)&nbsp;
+[![Flask](https://img.shields.io/badge/Flask-3.1.0-ffffff?style=for-the-badge&logo=flask&logoColor=black&labelColor=111111)](.)&nbsp;
+[![Gemini](https://img.shields.io/badge/Google_Gemini-AI-4285F4?style=for-the-badge&logo=google&logoColor=white&labelColor=111111)](.)&nbsp;
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black&labelColor=111111)](.)&nbsp;
+[![PyTorch](https://img.shields.io/badge/PyTorch-Backend-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white&labelColor=111111)](.)
 
 <br/>
 
-> 📅 **Last Updated:** April 22, 2026 &nbsp;|&nbsp; 🔒 **Security:** Production-Grade &nbsp;|&nbsp; 🤖 **AI Models:** 6 Active
+> 📅 **Last Updated:** April 22, 2026 &nbsp;&nbsp;|&nbsp;&nbsp; 🔒 **Security:** Production-Grade &nbsp;&nbsp;|&nbsp;&nbsp; 🤖 **AI Models:** 6 Active
+
+<br/>
+
+**A full-stack, AI-powered resume builder with hybrid NLP scoring, semantic keyword intelligence,<br/>real-time live preview, and 12 cinematic templates — built to beat any ATS system.**
+
+<br/>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%"/>
 
 </div>
 
----
+<br/>
 
 ## 📖 Table of Contents
 
@@ -39,6 +47,8 @@ real-time live preview, and 12 cinematic templates — built to beat any ATS sys
 | 10 | [🚀 Setup & Running](#-setup--running) |
 | 11 | [📦 Environment Variables](#-environment-variables) |
 | 12 | [🔄 Live Data Flow](#-live-data-flow) |
+
+<br/>
 
 ---
 
@@ -93,21 +103,23 @@ real-time live preview, and 12 cinematic templates — built to beat any ATS sys
 </tr>
 </table>
 
+<br/>
+
 ---
 
 ## 🏗️ Architecture Overview
 
 ```
-╔══════════════════════════════════════════════════════════════╗
-║                      BROWSER  (Client)                       ║
+╔═════════════════════════════════════════════════════════════╗
+║                      BROWSER  (Client)                      ║
 ║   ┌─────────────┐   ┌─────────────┐   ┌───────────────────┐ ║
 ║   │  Landing    │   │    Auth     │   │   Resume Editor   │ ║
 ║   │   Page      │   │   Pages     │   │  + Live Preview   │ ║
 ║   └─────────────┘   └─────────────┘   └───────────────────┘ ║
-║                           │                                  ║
-║                    REST API (JSON)                           ║
-╠═══════════════════════════╪══════════════════════════════════╣
-║                     FLASK SERVER                             ║
+║                           │                                 ║
+║                    REST API (JSON)                          ║
+╠═══════════════════════════╪═════════════════════════════════╣
+║                     FLASK SERVER                            ║
 ║  ┌─────────────────────────────────────────────────────┐    ║
 ║  │  Auth Blueprint /api/v1/auth/*                      │    ║
 ║  │  Resume Blueprint /api/v1/resumes/*                 │    ║
@@ -117,13 +129,15 @@ real-time live preview, and 12 cinematic templates — built to beat any ATS sys
 ║  ├─────────────────────────────────────────────────────┤    ║
 ║  │  SQLAlchemy ORM         │  Marshmallow Schemas      │    ║
 ║  └─────────────────────────────────────────────────────┘    ║
-║           │                                                   ║
+║           │                                                 ║
 ║   ┌───────┴────────┐     ┌──────────────────────────────┐   ║
 ║   │  SQLite / PG   │     │  Google Gemini API           │   ║
 ║   │  (Database)    │     │  + Local NLP Models          │   ║
 ║   └────────────────┘     └──────────────────────────────┘   ║
-╚══════════════════════════════════════════════════════════════╝
+╚═════════════════════════════════════════════════════════════╝
 ```
+
+<br/>
 
 ---
 
@@ -170,9 +184,19 @@ real-time live preview, and 12 cinematic templates — built to beat any ATS sys
 
 > 💡 **`auto` mode** runs **both** pipelines simultaneously — works with or without a Gemini API key.
 
+<br/>
+
 ---
 
 ## 🛠️ Tech Stack
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=python,flask,redis,postgresql,sqlite,pytorch,js,tailwind,html,css&theme=dark&perline=10" />
+
+</div>
+
+<br/>
 
 ### 🐍 Backend
 
@@ -214,6 +238,8 @@ real-time live preview, and 12 cinematic templates — built to beat any ATS sys
 | **html2pdf.js** | Client-side PDF export |
 | **Google Fonts** — Manrope, Fraunces | Typography |
 | **Material Symbols** | Icon library |
+
+<br/>
 
 ---
 
@@ -276,6 +302,8 @@ resume_builder_project/
 └── pytest.ini
 ```
 
+<br/>
+
 ---
 
 ## 🗃️ Database Schema
@@ -309,6 +337,8 @@ erDiagram
 | `templates` | id, name, html_path, css_path, ats_safe | Template definitions |
 | `refresh_tokens` | id, user_id, token_hash, expires_at, revoked | JWT refresh store |
 | `security_audit_log` | id, user_id, event_type, ip_address, payload | Security events |
+
+<br/>
 
 ---
 
@@ -357,6 +387,8 @@ erDiagram
 | `POST` | `/resumes/:id/summary-generate` | 5 / min | AI professional summary |
 | `POST` | `/ai/optimize-bullet` | 5 / min | AI bullet point optimizer (XYZ formula) |
 
+<br/>
+
 ---
 
 ## 🔒 Security Features
@@ -372,6 +404,8 @@ erDiagram
 | **Audit Logging** | `SecurityAuditLog` table | Tracks logins, injection attempts, anomalies |
 | **Prompt Injection Defense** | Keyword filtering | Applied in `ats_service.py` before Gemini calls |
 | **OAuth2** | `Authlib` | Google Sign-In with full OAuth2 flow |
+
+<br/>
 
 ---
 
@@ -393,6 +427,8 @@ erDiagram
 | 10 | `mono` | Monospace typewriter aesthetic | ⬜ Light |
 | 11 | `skyline` | Blue gradient header, corporate | ⬜ Light |
 | 12 | `matrix` | Green-on-black terminal hacker theme | 🌑 Full dark |
+
+<br/>
 
 ---
 
@@ -454,6 +490,8 @@ redis-server
 celery -A app.celery worker --loglevel=info
 ```
 
+<br/>
+
 ---
 
 ## 📦 Environment Variables
@@ -479,6 +517,8 @@ LLM_FALLBACK_MODEL=gemini-1.5-pro
 # ─── App Config ──────────────────────────────────────────────
 FLASK_ENV=development
 ```
+
+<br/>
 
 ---
 
@@ -512,6 +552,8 @@ PUT /api/v1/resumes/:id/personal-info
 update_personal_info() → DB commit ✅
 ```
 
+<br/>
+
 ---
 
 ## ✅ Section Integration Audit
@@ -527,37 +569,22 @@ update_personal_info() → DB commit ✅
 | Projects | `projects[]` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 | Certifications | `certifications[]` | ✅ | ✅ | ✅ | ✅ | ✅ **PASS** |
 
----
+<br/>
 
-## 📋 Changelog
-
-### v1.3.0 — April 22, 2026
-- 🐛 **Fixed:** Phone number now correctly renders in all resume templates and fallback sample preview
-- 🐛 **Fixed:** Template selector immediately updates the live preview on change
-- 🎨 **Improved:** Orange/warm theme visibility restored in template picker
-- 🔇 **Silenced:** Redis connection warnings in development terminal output
-
-### v1.2.0 — April 21, 2026
-- ✨ **Added:** ATS Lab panel with dual-engine hybrid analysis display
-- ✨ **Added:** Cinematic status indicators for AI analysis progress
-- 🎨 **Improved:** ATS panel layout — expands to full width when active
-
-### v1.1.0 — April 14, 2026
-- ✨ **Added:** 12 resume templates with live switching
-- ✨ **Added:** Version history — snapshot and revert any state
-- ✨ **Added:** Public tokenized share links
-- 🔒 **Added:** Prompt injection defense in ATS service
-
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%"/>
 
 <div align="center">
 
-### Built with ❤️ by [Sai Kiran Putta V.V](https://linkedin.com/in/sai-kiran-putta-v-v-421497310)
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,40:1a0800,100:000000&height=160&section=footer&text=Built%20with%20%E2%9D%A4%EF%B8%8F%20by%20Sai%20Kiran%20Putta%20V.V&fontSize=22&fontColor=f97316&fontAlignY=65&animation=fadeIn" width="100%"/>
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/sai-kiran-putta-v-v-421497310)
-[![GitHub](https://img.shields.io/badge/GitHub-rokeysai13--sys-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rokeysai13-sys)
-[![Email](https://img.shields.io/badge/Email-rokeysai13@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:rokeysai13@gmail.com)
+<br/>
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=111111)](https://linkedin.com/in/sai-kiran-putta-v-v-421497310)&nbsp;
+[![GitHub](https://img.shields.io/badge/GitHub-rokeysai13--sys-181717?style=for-the-badge&logo=github&logoColor=white&labelColor=111111)](https://github.com/rokeysai13-sys)&nbsp;
+[![Email](https://img.shields.io/badge/Email-rokeysai13@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white&labelColor=111111)](mailto:rokeysai13@gmail.com)
+
+<br/>
 
 *Flask · Vanilla JS · Google Gemini · HuggingFace Transformers · spaCy · PyTorch*
 
-</div>#
+</div>
